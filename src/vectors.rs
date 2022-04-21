@@ -7,6 +7,7 @@ use crate::traitbounds::Real;
 macro_rules! vector {
     ($type:ident, $($x:expr),*) => {
         {
+            use crate::vectors::{Vector, VectorType};
             let mut temp_vec = Vector::new(VectorType::$type);
             $(
                 temp_vec.push($x);
