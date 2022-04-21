@@ -23,7 +23,7 @@ fn vector_macro_test() {
 /// There is 3 forms of the macro:
 /// vector![Row, 1f32, 2.0, 3.0]
 /// vector![Row, f32, 1, 2, 3]
-/// vector![Row, f32, i16, 1, 2, 3]
+/// vector![Row, i16 => f32, 1, 2, 3]
 ///
 /// The first form is one where you can specify the type for each element or Rust will infer.
 /// The second form is one where you specify the type for the vector and you can specify the type for each element or rust will infer.
