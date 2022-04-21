@@ -14,7 +14,7 @@ fn vector_macro_test() {
     assert_eq!(v, v2);
 
     let v3 = vector![Row, f32, 1i16, 2i16, 3i16];
-    let v4 = vector![Row, f32, i16, 1, 2, 3];
+    let v4 = vector![Row, i16 => f32, 1, 2, 3];
     assert_eq!(v3, v4);
 }
 
@@ -30,7 +30,7 @@ fn vector_macro_test() {
 /// The third form is one where you specify the type for the vector and the type for each element, this one can panic because you can convert a type to another type that is not a valid conversion. (e.g. u16::MAX to u8)
 #[macro_export]
 macro_rules! vector {
-    ($vectype:ident, $intotype:ty, $inputtype:ty, $($x:expr),*) => {
+    ($vectype:ident, $inputtype:ty => $intotype:ty, $($x:expr),*) => {
         {
             use $crate::vectors::{Vector, VectorType};
             let x: Vector<$intotype> = { 
