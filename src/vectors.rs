@@ -2,13 +2,32 @@ use std::{ops::{Index, IndexMut}, slice::SliceIndex};
 
 use crate::traitbounds::Real;
 
+#[test]
+fn vector_macro_test() {
+    use crate::vector;
+
+    let v = vector![Row, 1f64, 2.0, 3.0];
+    let v2 = vector![Row, f64, 1, 2, 3];
+    assert_eq!(v, v2);
+}
+
 /// Vector macro for creating a vector of a given type.
 #[macro_export]
 macro_rules! vector {
-    ($type:ident, $($x:expr),*) => {
+    ($vectype:ident, $type:ty, $($x:expr),*) => {
         {
-            use crate::vectors::{Vector, VectorType};
-            let mut temp_vec = Vector::new(VectorType::$type);
+            use $crate::vectors::{Vector, VectorType};
+            let mut temp_vec = Vector::new(VectorType::$vectype);
+            $(
+                temp_vec.push(<$type>::from($x));
+            )*
+            temp_vec
+        }
+    };
+    ($vectype:ident, $($x:expr),*) => {
+        {
+            use $crate::vectors::{Vector, VectorType};
+            let mut temp_vec = Vector::new(VectorType::$vectype);
             $(
                 temp_vec.push($x);
             )*
