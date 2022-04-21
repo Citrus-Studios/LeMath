@@ -3,6 +3,7 @@ use std::{ops::{Index, IndexMut}, slice::SliceIndex};
 use crate::traitbounds::Real;
 
 /// Vector macro for creating a vector of a given type.
+#[macro_export]
 macro_rules! vector {
     ($type:ident, $($x:expr),*) => {
         {
