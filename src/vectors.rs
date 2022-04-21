@@ -75,15 +75,19 @@ impl<T: Real> Vector<T> {
     pub fn as_slice_ref_mut(&mut self) -> &mut [T] {
         self.contents.as_mut_slice()
     }
+    #[inline]
     pub fn get<I: SliceIndex<[T]>>(&self, index: I) -> Option<&I::Output> {
         self.contents.get(index)
     }
+    #[inline]
     pub fn get_mut<I: SliceIndex<[T]>>(&mut self, index: I) -> Option<&mut I::Output> {
         self.contents.get_mut(index)
     }
+    #[inline]
     pub fn index<I: SliceIndex<[T]>>(&self, index: I) -> &I::Output {
         self.contents.get(index).unwrap()
     }
+    #[inline]
     pub fn index_mut<I: SliceIndex<[T]>>(&mut self, index: I) -> &mut I::Output {
         self.contents.get_mut(index).unwrap()
     }
