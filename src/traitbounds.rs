@@ -1,4 +1,4 @@
-use std::{iter::Step, ops::{AddAssign, Sub, SubAssign, Div, Add, Mul, MulAssign}};
+use std::{ops::{AddAssign, Sub, SubAssign, Div, Add, Mul, MulAssign}};
 
 macro_rules! impl_trait {
     (impl $trait:ident for $($x:ident)*) => {
