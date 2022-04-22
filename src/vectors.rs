@@ -156,6 +156,13 @@ impl<T: VectorGeneric<T>> Vector<T> {
             y.0[x-1]*y.1[x-1]
         }, (self.clone(), rhs.clone()))
     }
+
+    pub fn scalar_mul(mut self, rhs: T) -> Self {
+        for x in 0..self.contents.len() {
+            self.contents[x] *= rhs;
+        }
+        self
+    }
 }
 
 impl<T: VectorGeneric<T>, I: SliceIndex<[T]>> Index<I> for Vector<T> {
@@ -170,5 +177,35 @@ impl<T: VectorGeneric<T>, I: SliceIndex<[T]>> IndexMut<I> for Vector<T> {
     #[inline]
     fn index_mut(&mut self, index: I) -> &mut Self::Output {
         self.index_mut_(index)
+    }
+}
+
+#[test]
+fn vector_dot_test() {
+    let x = vector![Row, 1, 2, 3];
+    let y = vector![Row, 2, 3, 4];
+    assert_eq!(20, x * y);
+}
+
+impl<T: VectorGeneric<T>> Mul<Self> for Vector<T> {
+    type Output = T;
+
+    fn mul(self, rhs: Self) -> Self::Output {
+        self.dot_product(rhs)
+    }
+}
+
+#[test]
+fn vector_scalar_test() {
+    let x = vector![Row, 1, 2, 3];
+    let y = 3;
+    assert_eq!(vector![Row, 3, 6, 9], x * y);
+}
+
+impl<T: VectorGeneric<T>> Mul<T> for Vector<T> {
+    type Output = Self;
+
+    fn mul(self, rhs: T) -> Self::Output {
+        self.scalar_mul(rhs)
     }
 }
