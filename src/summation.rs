@@ -1,6 +1,6 @@
-use std::iter::Step;
+use std::{iter::Step, ops::AddAssign};
 
-use crate::traitbounds::{Integer};
+use crate::traitbounds::{Integer, Real};
 
 #[test]
 fn summation_test() {
@@ -15,6 +15,54 @@ pub fn sum<T: From<u8> + Integer + Step>(from: T, to: T, function: fn(T) -> T) -
     let mut result = T::from(0);
     for i in from..=to {
         result += function(i);
+    }
+    result
+}
+
+#[test]
+fn summation_output_test() {
+    let x = sum_output(1, 4, |x| -> i64 { 2*x as i64 });
+    assert_eq!(20, x);
+}
+
+pub fn sum_output<T: Integer + Step, U: From<u8> + Real>(from: T, to: T, function: fn(T) -> U) -> U {
+    if from > to {
+        return U::from(0);
+    }
+    let mut result = U::from(0);
+    for i in from..=to {
+        result += function(i);
+    }
+    result
+}
+
+#[test]
+fn summation_extra_test() {
+    let y = vec![10, 20, 30, 40];
+    let x = sum_extra(1, 4, |x, y| { 
+        2*x + y[x-1]
+    }, y);
+    assert_eq!(120, x);
+}
+
+pub fn sum_extra<T: From<u8> + Integer + Step, U>(from: T, to: T, function: fn(T, &U) -> T, other: U) -> T {
+    if from > to {
+        return T::from(0);
+    }
+    let mut result = T::from(0);
+    for i in from..=to {
+        result += function(i, &other);
+    }
+    result
+}
+
+pub fn sum_extra_output<T: From<u8> + Integer + Step, U, V: From<u8> + Real>(from: T, to: T, function: fn(T, &U) -> V, other: U) -> V {
+    if from > to {
+        return V::from(0);
+    }
+    let mut result = V::from(0);
+    for i in from..=to {
+        result += function(i, &other);
     }
     result
 }
