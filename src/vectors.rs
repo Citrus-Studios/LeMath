@@ -3,7 +3,7 @@ use std::{
     slice::SliceIndex,
 };
 
-use crate::{traitbounds::Real, summation::{sum, sum_extra, sum_extra_output}};
+use crate::{traitbounds::Real, summation::{sum_extra_output}};
 
 #[test]
 fn vector_macro_test() {
