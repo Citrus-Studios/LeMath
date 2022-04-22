@@ -20,15 +20,3 @@ impl_trait!(impl Integer for usize u8 u16 u32 u64 u128 isize i8 i16 i32 i64 i128
 
 pub trait Real: PartialEq + PartialOrd + Sized + AddAssign  {}
 impl_trait!(impl Real for f32 f64 usize u8 u16 u32 u64 u128 isize i8 i16 i32 i64 i128);
-
-macro_rules! impl_from_trait {
-    (trait $trait:ident: $($x:ident)*) => {
-        pub trait $trait: $(From<$x> + )* {}
-    };
-}
-
-impl_from_trait!(trait FromUnsigned: usize u8 u16 u32 u64 u128);
-impl_from_trait!(trait FromSigned: isize i8 i16 i32 i64 i128);
-impl_from_trait!(trait FromFloat: f32 f64);
-impl_from_trait!(trait FromInteger: usize u8 u16 u32 u64 u128 isize i8 i16 i32 i64 i128);
-impl_from_trait!(trait FromReal: f32 f64 usize u8 u16 u32 u64 u128 isize i8 i16 i32 i64 i128);
