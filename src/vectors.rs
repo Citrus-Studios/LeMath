@@ -1,9 +1,9 @@
 use std::{
-    ops::{Index, IndexMut},
+    ops::{Index, IndexMut, Mul},
     slice::SliceIndex,
 };
 
-use crate::traitbounds::Real;
+use crate::{traitbounds::Real, summation::{sum, sum_extra, sum_extra_output}};
 
 #[test]
 fn vector_macro_test() {
@@ -80,14 +80,17 @@ pub enum VectorType {
     Column,
 }
 
+pub trait VectorGeneric<T> = Clone + Default + Real + Mul<Output = T> + Copy;
+
+
 /// A Math Vector.
 #[derive(Clone, Debug, PartialEq)]
-pub struct Vector<T: Real> {
+pub struct Vector<T: VectorGeneric<T>> {
     vec_type: VectorType,
     contents: Vec<T>,
 }
 
-impl<T: Real> Vector<T> {
+impl<T: VectorGeneric<T>> Vector<T> {
     pub fn new(vec_type: VectorType) -> Vector<T> {
         Vector {
             vec_type,
@@ -136,29 +139,36 @@ impl<T: Real> Vector<T> {
         self.contents.get_mut(index)
     }
     #[inline]
-    pub fn index<I: SliceIndex<[T]>>(&self, index: I) -> &I::Output {
+    pub fn index_<I: SliceIndex<[T]>>(&self, index: I) -> &I::Output {
         self.contents.get(index).unwrap()
     }
     #[inline]
-    pub fn index_mut<I: SliceIndex<[T]>>(&mut self, index: I) -> &mut I::Output {
+    pub fn index_mut_<I: SliceIndex<[T]>>(&mut self, index: I) -> &mut I::Output {
         self.contents.get_mut(index).unwrap()
     }
     pub fn is_empty(&self) -> bool {
         self.contents.is_empty()
     }
-}
 
-impl<T: Real, I: SliceIndex<[T]>> Index<I> for Vector<T> {
-    type Output = I::Output;
-    #[inline]
-    fn index(&self, index: I) -> &Self::Output {
-        self.index(index)
+    // Math Functions
+    pub fn dot_product(self, rhs: Self) -> T {
+        sum_extra_output(1, self.len(), |x, y| {
+            y.0[x-1]*y.1[x-1]
+        }, (self.clone(), rhs.clone()))
     }
 }
 
-impl<T: Real, I: SliceIndex<[T]>> IndexMut<I> for Vector<T> {
+impl<T: VectorGeneric<T>, I: SliceIndex<[T]>> Index<I> for Vector<T> {
+    type Output = I::Output;
+    #[inline]
+    fn index(&self, index: I) -> &Self::Output {
+        self.index_(index)
+    }
+}
+
+impl<T: VectorGeneric<T>, I: SliceIndex<[T]>> IndexMut<I> for Vector<T> {
     #[inline]
     fn index_mut(&mut self, index: I) -> &mut Self::Output {
-        self.index_mut(index)
+        self.index_mut_(index)
     }
 }
