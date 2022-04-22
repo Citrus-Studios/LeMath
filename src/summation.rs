@@ -8,11 +8,11 @@ fn summation_test() {
     assert_eq!(20, x);
 }
 
-pub fn sum<T: From<u8> + Integer + Step>(from: T, to: T, function: fn(T) -> T) -> T {
+pub fn sum<T: Default + Integer + Step>(from: T, to: T, function: fn(T) -> T) -> T {
     if from > to {
         panic!("From must be larger than to.");
     }
-    let mut result = T::from(0);
+    let mut result = T::default();
     for i in from..=to {
         result += function(i);
     }
@@ -25,11 +25,11 @@ fn summation_output_test() {
     assert_eq!(20, x);
 }
 
-pub fn sum_output<T: Integer + Step, U: From<u8> + Real>(from: T, to: T, function: fn(T) -> U) -> U {
+pub fn sum_output<T: Integer + Step, U: Default + Real>(from: T, to: T, function: fn(T) -> U) -> U {
     if from > to {
         panic!("From must be larger than to.");
     }
-    let mut result = U::from(0);
+    let mut result = U::default();
     for i in from..=to {
         result += function(i);
     }
@@ -45,22 +45,22 @@ fn summation_extra_test() {
     assert_eq!(120, x);
 }
 
-pub fn sum_extra<T: From<u8> + Integer + Step, U>(from: T, to: T, function: fn(T, &U) -> T, other: U) -> T {
+pub fn sum_extra<T: Default + Integer + Step, U>(from: T, to: T, function: fn(T, &U) -> T, other: U) -> T {
     if from > to {
         panic!("From must be larger than to.");
     }
-    let mut result = T::from(0);
+    let mut result = T::default();
     for i in from..=to {
         result += function(i, &other);
     }
     result
 }
 
-pub fn sum_extra_output<T: From<u8> + Integer + Step, U, V: From<u8> + Real>(from: T, to: T, function: fn(T, &U) -> V, other: U) -> V {
+pub fn sum_extra_output<T: Default + Integer + Step, U, V: Default + Real>(from: T, to: T, function: fn(T, &U) -> V, other: U) -> V {
     if from > to {
         panic!("From must be larger than to.");
     }
-    let mut result = V::from(0);
+    let mut result = V::default();
     for i in from..=to {
         result += function(i, &other);
     }
