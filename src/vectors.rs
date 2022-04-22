@@ -1,6 +1,6 @@
 use std::{
     ops::{Index, IndexMut, Mul},
-    slice::SliceIndex,
+    slice::SliceIndex, fmt::{Display, Debug},
 };
 
 use crate::{traitbounds::Real, summation::{sum_extra_output}};
@@ -80,7 +80,7 @@ pub enum VectorType {
     Column,
 }
 
-pub trait VectorGeneric<T> = Clone + Default + Real + Mul<Output = T> + Copy;
+pub trait VectorGeneric<T> = Clone + Default + Real + Mul<Output = T> + Copy + Debug;
 
 
 /// A Math Vector.
@@ -163,6 +163,15 @@ impl<T: VectorGeneric<T>> Vector<T> {
         }
         self
     }
+
+    pub fn transpose(mut self) -> Self {
+        if self.vec_type == VectorType::Row {
+            self.vec_type = VectorType::Column
+        } else {
+            self.vec_type = VectorType::Row
+        }
+        self
+    }
 }
 
 impl<T: VectorGeneric<T>, I: SliceIndex<[T]>> Index<I> for Vector<T> {
@@ -207,5 +216,35 @@ impl<T: VectorGeneric<T>> Mul<T> for Vector<T> {
 
     fn mul(self, rhs: T) -> Self::Output {
         self.scalar_mul(rhs)
+    }
+}
+
+#[test]
+fn vector_display_test() {
+    let x = vector![Row, 0, 1, 2];
+    let y = vector![Column, 0, 1, 2];
+    println!("{}\n{}", x, y);
+}
+
+impl<T: VectorGeneric<T>> Display for Vector<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        if self.vec_type == VectorType::Row {
+            write!(f, "{:?}", self.contents).unwrap();
+        } else {
+            if self.contents.len() == 1 {
+                write!(f, "{:?}", self.contents).unwrap();
+            } else if self.contents.len() == 2 {
+                write!(f, "⎡ {:?} ⎤\n", self.contents[0]).unwrap();
+                write!(f, "⎣ {:?} ⎦", self.contents[1]).unwrap();
+            } else {
+                write!(f, "⎡ {:?} ⎤\n", self.contents[0]).unwrap();
+                for x in 1..self.contents.len()-1 {
+                    write!(f, "⎢ {:?} ⎥\n", self.contents[x]).unwrap();
+                }
+                write!(f, "⎣ {:?} ⎦", self.contents[self.contents.len()-1]).unwrap();
+            }
+        }
+
+        f.write_str("")
     }
 }
