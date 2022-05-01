@@ -1,5 +1,5 @@
 use std::{
-    ops::{Index, IndexMut, Mul},
+    ops::{Index, IndexMut, Mul, Add},
     slice::SliceIndex, fmt::{Display, Debug},
 };
 
@@ -220,10 +220,43 @@ impl<T: VectorGeneric<T>> Mul<T> for Vector<T> {
 }
 
 #[test]
+fn vector_addition_test() {
+    let x = vector![Row, 0, 1, 2];
+    let y = vector![Row, 0, 1, 2];
+    println!("{}\n{}", x, y);
+}
+
+#[test]
 fn vector_display_test() {
     let x = vector![Row, 0, 1, 2];
-    let y = vector![Column, 0, 1, 2];
-    println!("{}\n{}", x, y);
+    let y = vector![Row, 0, 1, 2];
+    println!("{}", x + y);
+}
+
+impl<T: VectorGeneric<T>> Add for Vector<T> {
+    type Output = Vector<T>;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        let larger = {
+            if self.len() > rhs.len() {
+                (self.len(), false);
+            } 
+            (rhs.len(), true)
+        };
+        if larger.1 {
+            let mut cloned = self.clone();
+            for (i, _) in self.into_iter().enumerate() {
+                cloned[i] += rhs[i];
+            }
+            return cloned;
+        } else {
+            let mut cloned = rhs.clone();
+            for (i, _) in rhs.into_iter().enumerate() {
+                cloned[i] += self[i];
+            }
+            return cloned;
+        }
+    }
 }
 
 impl<T: VectorGeneric<T>> Display for Vector<T> {
