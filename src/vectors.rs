@@ -1,9 +1,10 @@
 use std::{
-    ops::{Index, IndexMut, Mul, Add},
-    slice::SliceIndex, fmt::{Display, Debug},
+    fmt::{Debug, Display},
+    ops::{Add, Index, IndexMut, Mul},
+    slice::SliceIndex,
 };
 
-use crate::{traitbounds::Real, summation::{sum_extra_output}};
+use crate::{summation::sum_extra_output, traitbounds::Real};
 
 #[test]
 fn vector_macro_test() {
@@ -33,7 +34,7 @@ macro_rules! vector {
     ($vectype:ident, $inputtype:ty => $intotype:ty, $($x:expr),*) => {
         {
             use $crate::vectors::{Vector, VectorType};
-            let x: Vector<$intotype> = { 
+            let x: Vector<$intotype> = {
                 let mut temp_vec = Vector::new(VectorType::$vectype);
                 $(
                     temp_vec.push(<$intotype>::from($x as $inputtype));
@@ -81,7 +82,6 @@ pub enum VectorType {
 }
 
 pub trait VectorGeneric<T> = Clone + Default + Real + Mul<Output = T> + Copy + Debug;
-
 
 /// A Math Vector.
 #[derive(Clone, Debug, PartialEq)]
@@ -152,9 +152,12 @@ impl<T: VectorGeneric<T>> Vector<T> {
 
     // Math Functions
     pub fn dot_product(self, rhs: Self) -> T {
-        sum_extra_output(1, self.len(), |x, y| {
-            y.0[x-1]*y.1[x-1]
-        }, (self.clone(), rhs.clone()))
+        sum_extra_output(
+            1,
+            self.len(),
+            |x, y| y.0[x - 1] * y.1[x - 1],
+            (self.clone(), rhs.clone()),
+        )
     }
 
     pub fn scalar_mul(mut self, rhs: T) -> Self {
@@ -226,13 +229,6 @@ fn vector_addition_test() {
     println!("{}\n{}", x, y);
 }
 
-#[test]
-fn vector_display_test() {
-    let x = vector![Row, 0, 1, 2];
-    let y = vector![Row, 0, 1, 2];
-    println!("{}", x + y);
-}
-
 impl<T: VectorGeneric<T>> Add for Vector<T> {
     type Output = Vector<T>;
 
@@ -240,7 +236,7 @@ impl<T: VectorGeneric<T>> Add for Vector<T> {
         let larger = {
             if self.len() > rhs.len() {
                 (self.len(), false);
-            } 
+            }
             (rhs.len(), true)
         };
         if larger.1 {
@@ -259,6 +255,13 @@ impl<T: VectorGeneric<T>> Add for Vector<T> {
     }
 }
 
+#[test]
+fn vector_display_test() {
+    let x = vector![Row, 0, 1, 2];
+    let y = vector![Row, 0, 1, 2, 3];
+    println!("{}", x + y);
+}
+
 impl<T: VectorGeneric<T>> Display for Vector<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         if self.vec_type == VectorType::Row {
@@ -271,10 +274,10 @@ impl<T: VectorGeneric<T>> Display for Vector<T> {
                 write!(f, "⎣ {:?} ⎦", self.contents[1]).unwrap();
             } else {
                 write!(f, "⎡ {:?} ⎤\n", self.contents[0]).unwrap();
-                for x in 1..self.contents.len()-1 {
+                for x in 1..self.contents.len() - 1 {
                     write!(f, "⎢ {:?} ⎥\n", self.contents[x]).unwrap();
                 }
-                write!(f, "⎣ {:?} ⎦", self.contents[self.contents.len()-1]).unwrap();
+                write!(f, "⎣ {:?} ⎦", self.contents[self.contents.len() - 1]).unwrap();
             }
         }
 
