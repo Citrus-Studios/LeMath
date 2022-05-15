@@ -4,7 +4,7 @@ use std::{
     slice::SliceIndex,
 };
 
-use crate::{summation::sum_extra_output, traitbounds::Real};
+use crate::{summation::sum_extra, traitbounds::Real};
 
 #[test]
 fn vector_macro_test() {
@@ -152,7 +152,7 @@ impl<T: VectorGeneric<T>> Vector<T> {
 
     // Math Functions
     pub fn dot_product(self, rhs: Self) -> T {
-        sum_extra_output(
+        sum_extra(
             1,
             self.len(),
             |x, y| y.0[x - 1] * y.1[x - 1],
