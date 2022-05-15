@@ -54,6 +54,16 @@ macro_rules! vector {
             temp_vec
         }
     };
+    ($($x:expr),*) => {
+        {
+            use $crate::vectors::{Vector, VectorType};
+            let mut temp_vec = Vector::new(VectorType::Row);
+            $(
+                temp_vec.push($x);
+            )*
+            temp_vec
+        }
+    };
 }
 
 /// The type of vector for the math vector.
