@@ -6,19 +6,6 @@ use std::{
 
 use crate::{summation::sum_extra, traitbounds::Real};
 
-#[test]
-fn vector_macro_test() {
-    use crate::vector;
-
-    let v = vector![Row, 1f64, 2.0, 3.0];
-    let v2 = vector![Row, f64, 1, 2, 3];
-    assert_eq!(v, v2);
-
-    let v3 = vector![Row, f32, 1i16, 2i16, 3i16];
-    let v4 = vector![Row, i16 => f32, 1, 2, 3];
-    assert_eq!(v3, v4);
-}
-
 /// Vector macro for creating a vector of a given type.
 ///
 /// There is 3 forms of the macro:
@@ -67,16 +54,6 @@ macro_rules! vector {
             temp_vec
         }
     };
-}
-
-#[test]
-fn vector_test() {
-    let x = vector![Row, 1, 2, 3];
-    let y = vector![Row, 2, 4, 6];
-    assert_eq!(vector![Row, 3, 6, 9], x.clone() + y.clone());
-    assert_eq!(vector![Row, 2, 4, 6], x.clone() * 2);
-    assert_eq!(28, x.clone() * y.clone());
-    println!("{}\n{}", x, y);
 }
 
 /// The type of vector for the math vector.
@@ -260,4 +237,27 @@ impl<T: VectorGeneric<T>> Display for Vector<T> {
 
         f.write_str("")
     }
+}
+
+#[test]
+fn vector_test() {
+    let x = vector![Row, 1, 2, 3];
+    let y = vector![Row, 2, 4, 6];
+    assert_eq!(vector![Row, 3, 6, 9], x.clone() + y.clone());
+    assert_eq!(vector![Row, 2, 4, 6], x.clone() * 2);
+    assert_eq!(28, x.clone() * y.clone());
+    println!("{}\n{}", x, y);
+}
+
+#[test]
+fn vector_macro_test() {
+    use crate::vector;
+
+    let v = vector![Row, 1f64, 2.0, 3.0];
+    let v2 = vector![Row, f64, 1, 2, 3];
+    assert_eq!(v, v2);
+
+    let v3 = vector![Row, f32, 1i16, 2i16, 3i16];
+    let v4 = vector![Row, i16 => f32, 1, 2, 3];
+    assert_eq!(v3, v4);
 }
