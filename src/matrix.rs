@@ -21,12 +21,6 @@ macro_rules! matrix {
     }
 }
 
-#[test]
-fn matrix_macro_test() {
-    let x = matrix!(10 20 30 => 40 50 60 => 70 80 90);
-    println!("{x}");
-}
-
 #[derive(Debug)]
 pub struct Matrix<T: VectorGeneric<T>> {
     contents: Vec<Vector<T>>,
@@ -111,4 +105,10 @@ impl<T: VectorGeneric<T>> Display for Matrix<T> {
         }
         f.write_str("")
     }
+}
+
+#[test]
+fn matrix_test() {
+    let x = matrix!(10 20 30 => 40 50 60 => 70 80 90);
+    println!("{x}");
 }
