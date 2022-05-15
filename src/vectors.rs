@@ -71,7 +71,12 @@ macro_rules! vector {
 
 #[test]
 fn vector_test() {
-    let _ = vector![Row, 1, 2, 3];
+    let x = vector![Row, 1, 2, 3];
+    let y = vector![Row, 2, 4, 6];
+    assert_eq!(vector![Row, 3, 6, 9], x.clone() + y.clone());
+    assert_eq!(vector![Row, 2, 4, 6], x.clone() * 2);
+    assert_eq!(28, x.clone() * y.clone());
+    println!("{}\n{}", x, y);
 }
 
 /// The type of vector for the math vector.
@@ -192,13 +197,6 @@ impl<T: VectorGeneric<T>, I: SliceIndex<[T]>> IndexMut<I> for Vector<T> {
     }
 }
 
-#[test]
-fn vector_dot_test() {
-    let x = vector![Row, 1, 2, 3];
-    let y = vector![Row, 2, 3, 4];
-    assert_eq!(20, x * y);
-}
-
 impl<T: VectorGeneric<T>> Mul<Self> for Vector<T> {
     type Output = T;
 
@@ -207,26 +205,12 @@ impl<T: VectorGeneric<T>> Mul<Self> for Vector<T> {
     }
 }
 
-#[test]
-fn vector_scalar_test() {
-    let x = vector![Row, 1, 2, 3];
-    let y = 3;
-    assert_eq!(vector![Row, 3, 6, 9], x * y);
-}
-
 impl<T: VectorGeneric<T>> Mul<T> for Vector<T> {
     type Output = Self;
 
     fn mul(self, rhs: T) -> Self::Output {
         self.scalar_mul(rhs)
     }
-}
-
-#[test]
-fn vector_addition_test() {
-    let x = vector![Row, 0, 1, 2];
-    let y = vector![Row, 0, 1, 2];
-    println!("{}\n{}", x, y);
 }
 
 impl<T: VectorGeneric<T>> Add for Vector<T> {
@@ -255,20 +239,13 @@ impl<T: VectorGeneric<T>> Add for Vector<T> {
     }
 }
 
-#[test]
-fn vector_display_test() {
-    let x = vector![Row, 0, 1, 2];
-    let y = vector![Row, 0, 1, 2, 3];
-    println!("{}", x + y);
-}
-
 impl<T: VectorGeneric<T>> Display for Vector<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         if self.vec_type == VectorType::Row {
-            write!(f, "{:?}", self.contents).unwrap();
+            write!(f, "{}", format!("{:?}", self.contents).replace(',', "")).unwrap();
         } else {
             if self.contents.len() == 1 {
-                write!(f, "{:?}", self.contents).unwrap();
+                write!(f, "{}", format!("{:?}", self.contents).replace(',', " ")).unwrap();
             } else if self.contents.len() == 2 {
                 write!(f, "⎡ {:?} ⎤\n", self.contents[0]).unwrap();
                 write!(f, "⎣ {:?} ⎦", self.contents[1]).unwrap();
