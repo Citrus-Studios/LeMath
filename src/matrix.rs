@@ -7,6 +7,36 @@ use crate::{
 
 #[macro_export]
 macro_rules! matrix {
+    ($inputtype:ty => $intotype:ty, $($($x:expr),*)=>*) => {
+        {
+            use $crate::vectors::{Vector, VectorType};
+            use $crate::matrix::{Matrix};
+            let mut temp_matrix = Matrix::new(vec![]);
+            $(
+                let mut temp_vec = Vector::new(VectorType::Row);
+                $(
+                    temp_vec.push(<$intotype>::from($x as $inputtype));
+                )*
+                temp_matrix.push(temp_vec);
+            )*
+            temp_matrix
+        }
+    };
+    ($intotype:ty, $($($x:expr),*)=>*) => {
+        {
+            use $crate::vectors::{Vector, VectorType};
+            use $crate::matrix::{Matrix};
+            let mut temp_matrix = Matrix::new(vec![]);
+            $(
+                let mut temp_vec = Vector::new(VectorType::Row);
+                $(
+                    temp_vec.push($x as $intotype);
+                )*
+                temp_matrix.push(temp_vec);
+            )*
+            temp_matrix
+        }
+    };
     ($($($x:expr),*)=>*) => {
         {
             use $crate::vectors::{Vector, VectorType};
