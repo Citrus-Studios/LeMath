@@ -4,7 +4,7 @@ use std::{
     slice::SliceIndex,
 };
 
-use crate::{summation::sum_extra, traitbounds::Real};
+use crate::{matrix::Matrix, summation::sum_extra, traitbounds::Real};
 
 /// Vector macro for creating a vector of a given type.
 ///
@@ -197,6 +197,14 @@ impl<T: VectorGeneric<T>> Mul<T> for Vector<T> {
 
     fn mul(self, rhs: T) -> Self::Output {
         self.scalar_mul(rhs)
+    }
+}
+
+impl<T: VectorGeneric<T>> Mul<Matrix<T>> for Vector<T> {
+    type Output = Vector<T>;
+
+    fn mul(self, rhs: Matrix<T>) -> Self::Output {
+        rhs * self
     }
 }
 
