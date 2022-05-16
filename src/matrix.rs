@@ -1,6 +1,9 @@
 use std::{fmt::Display, ops::Mul};
 
-use crate::vectors::{Vector, VectorGeneric};
+use crate::{
+    vector,
+    vectors::{Vector, VectorGeneric},
+};
 
 #[macro_export]
 macro_rules! matrix {
@@ -54,6 +57,14 @@ impl<T: VectorGeneric<T>> Matrix<T> {
             }
         }
         self.contents.push(value);
+    }
+    pub fn is_identity(&self) -> bool {
+        if self.contents.get(0).is_some() {
+            if self.contents.len() == self.contents[0].len() {
+                return true;
+            }
+        }
+        false
     }
 }
 
@@ -115,10 +126,14 @@ impl<T: VectorGeneric<T>> Display for Matrix<T> {
 }
 
 impl<T: VectorGeneric<T>> Mul<Vector<T>> for Matrix<T> {
-    type Output = Matrix<T>;
+    type Output = Vector<T>;
 
     fn mul(self, rhs: Vector<T>) -> Self::Output {
-        todo!()
+        let mut temp_vec = vector![];
+        for x in 0..self.len() {
+            temp_vec.push(self.contents[x].clone() * rhs.clone());
+        }
+        temp_vec
     }
 }
 
@@ -126,4 +141,6 @@ impl<T: VectorGeneric<T>> Mul<Vector<T>> for Matrix<T> {
 fn matrix_test() {
     let x = matrix!(10 20 30 => 40 50 60 => 70 80 90);
     println!("{x}");
+    let y = vector![1, 2, 3];
+    println!("{}", x * y);
 }
