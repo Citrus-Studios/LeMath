@@ -7,7 +7,7 @@ use crate::{
 
 #[macro_export]
 macro_rules! matrix {
-    ($($($x:expr)*)=>*) => {
+    ($($($x:expr),*)=>*) => {
         {
             use $crate::vectors::{Vector, VectorType};
             use $crate::matrix::{Matrix};
@@ -139,7 +139,7 @@ impl<T: VectorGeneric<T>> Mul<Vector<T>> for Matrix<T> {
 
 #[test]
 fn matrix_test() {
-    let x = matrix!(10 20 30 => 40 50 60 => 70 80 90);
+    let x = matrix!(10, 20, 30 => 40, 50, 60 => 70, 80, 90);
     println!("{x}");
     let y = vector![1, 2, 3];
     println!("{}", x * y);
