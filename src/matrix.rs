@@ -1,4 +1,4 @@
-use std::fmt::Display;
+use std::{fmt::Display, ops::Mul};
 
 use crate::vectors::{Vector, VectorGeneric};
 
@@ -46,6 +46,13 @@ impl<T: VectorGeneric<T>> Matrix<T> {
         self.contents.get_mut(index).unwrap()
     }
     pub fn push(&mut self, value: Vector<T>) {
+        if self.contents.len() != 0 {
+            if value.len() != self.contents[0].len() {
+                panic!(
+                    "The vector push length must be the same length as the original vector length."
+                );
+            }
+        }
         self.contents.push(value);
     }
 }
@@ -104,6 +111,14 @@ impl<T: VectorGeneric<T>> Display for Matrix<T> {
             }
         }
         f.write_str("")
+    }
+}
+
+impl<T: VectorGeneric<T>> Mul<Vector<T>> for Matrix<T> {
+    type Output = Matrix<T>;
+
+    fn mul(self, rhs: Vector<T>) -> Self::Output {
+        todo!()
     }
 }
 
