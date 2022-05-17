@@ -1,3 +1,9 @@
+use std::ops::{Add, Mul};
+
+use crate::matrix::matrix::Matrix;
+
+use super::vectors::{Vector, VectorGeneric};
+
 /// Dot Product
 impl<T: VectorGeneric<T>> Mul<Self> for Vector<T> {
     type Output = T;
