@@ -1,7 +1,7 @@
 use std::{fmt::Display, ops::Mul};
 
 use crate::{
-    vector_items,
+    vector,
     vectors::{Vector, VectorGeneric},
 };
 
