@@ -3,7 +3,7 @@
 #![feature(trivial_bounds)]
 #![feature(trait_alias)]
 
-pub mod vectors;
-pub mod traitbounds;
-pub mod summation;
 pub mod matrix;
+pub mod summation;
+pub mod traitbounds;
+pub mod vectors;
