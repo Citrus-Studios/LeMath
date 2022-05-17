@@ -15,7 +15,7 @@ macro_rules! matrix {
             $(
                 let mut temp_vec = Vector::new(VectorType::Row);
                 $(
-                    temp_vec.push(<$intotype>::from($x as $inputtype));
+                    temp_vec.push(<$intotype>::from($x as $inputtype) );
                 )*
                 temp_matrix.push(temp_vec);
             )*
