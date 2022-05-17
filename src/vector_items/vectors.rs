@@ -8,14 +8,16 @@ use crate::{summation::sum_extra, traitbounds::Real};
 
 /// Vector macro for creating a vector of a given type.
 ///
-/// There is 3 forms of the macro:
+/// There is 4 forms of the macro:
 /// vector![Row, 1f32, 2.0, 3.0]
 /// vector![Row, f32, 1, 2, 3]
 /// vector![Row, i16 => f32, 1, 2, 3]
+/// vector![1, 2, 3]
 ///
 /// The first form is one where you can specify the type for each element or Rust will infer.
 /// The second form is one where you specify the type for the vector and you can specify the type for each element or rust will infer.
 /// The third form is one where you specify the type for the vector and the type for each element, this one can panic because you can convert a type to another type that is not a valid conversion. (e.g. u16::MAX to u8)
+/// The fourth form is just Rust will infer it's type and it will default to a Row vector
 #[macro_export]
 macro_rules! vector {
     ($vectype:ident, $inputtype:ty => $intotype:ty, $($x:expr),*) => {
