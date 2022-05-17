@@ -12,6 +12,6 @@ pub mod matrix_items;
 pub mod vector_items;
 
 #[cfg(feature = "linear-algebra")]
-pub use matrix_items::matrix;
+pub use matrix_items::matrix as matrices;
 #[cfg(feature = "linear-algebra")]
 pub use vector_items::vectors;
