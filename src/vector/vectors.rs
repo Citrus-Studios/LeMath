@@ -33,7 +33,7 @@ macro_rules! vector {
     };
     ($vectype:ident, $intotype:ty, $($x:expr),*) => {
         {
-            use $crate::vectors::{Vector, VectorType};
+            use $crate::vector::{Vector, VectorType};
             let x: Vector<$intotype> = {
                 let mut temp_vec = Vector::new(VectorType::$vectype);
                 $(
@@ -46,7 +46,7 @@ macro_rules! vector {
     };
     ($vectype:ident, $($x:expr),*) => {
         {
-            use $crate::vectors::{Vector, VectorType};
+            use $crate::vector::{Vector, VectorType};
             let mut temp_vec = Vector::new(VectorType::$vectype);
             $(
                 temp_vec.push($x);
@@ -56,7 +56,7 @@ macro_rules! vector {
     };
     ($($x:expr),*) => {
         {
-            use $crate::vectors::{Vector, VectorType};
+            use $crate::vector::{Vector, VectorType};
             let mut temp_vec = Vector::new(VectorType::Row);
             $(
                 temp_vec.push($x);
