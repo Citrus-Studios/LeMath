@@ -6,4 +6,4 @@
 pub mod matrix;
 pub mod summation;
 pub mod traitbounds;
-pub mod vectors;
+pub mod vector;
