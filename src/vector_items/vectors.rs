@@ -1,10 +1,10 @@
 use std::{
     fmt::{Debug, Display},
-    ops::{Add, Index, IndexMut, Mul},
+    ops::{Index, IndexMut, Mul},
     slice::SliceIndex,
 };
 
-use crate::{matrix::Matrix, summation::sum_extra, traitbounds::Real};
+use crate::{summation::sum_extra, traitbounds::Real};
 
 /// Vector macro for creating a vector of a given type.
 ///
@@ -219,8 +219,6 @@ fn vector_test() {
 
 #[test]
 fn vector_macro_test() {
-    use crate::vector_items;
-
     let v = vector![Row, 1f64, 2.0, 3.0];
     let v2 = vector![Row, f64, 1, 2, 3];
     assert_eq!(v, v2);
