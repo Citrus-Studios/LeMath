@@ -4,7 +4,7 @@ use std::{
     slice::SliceIndex,
 };
 
-use crate::{matrix::Matrix, summation::sum_extra, traitbounds::Real};
+use crate::{matrix_items::Matrix, summation::sum_extra, traitbounds::Real};
 
 /// Vector macro for creating a vector of a given type.
 ///
@@ -219,7 +219,7 @@ fn vector_test() {
 
 #[test]
 fn vector_macro_test() {
-    use crate::vector;
+    use crate::vector_items;
 
     let v = vector![Row, 1f64, 2.0, 3.0];
     let v2 = vector![Row, f64, 1, 2, 3];

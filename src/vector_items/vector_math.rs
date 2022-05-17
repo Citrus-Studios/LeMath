@@ -1,6 +1,6 @@
 use std::ops::{Add, Mul};
 
-use crate::matrix::matrix::Matrix;
+use crate::matrix_items::matrix::Matrix;
 
 use super::vectors::{Vector, VectorGeneric};
 
