@@ -6,5 +6,4 @@
 pub mod summation;
 pub mod traitbounds;
 
-#[cfg(feature = "linear-algebra")]
 pub mod linear_algebra;
