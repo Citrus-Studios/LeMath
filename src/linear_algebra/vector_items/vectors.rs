@@ -23,7 +23,7 @@ use crate::{summation::sum_extra, traitbounds::Real};
 macro_rules! vector {
     ($vectype:ident, $inputtype:ty => $intotype:ty, $($x:expr),*) => {
         {
-            use $crate::vectors::{Vector, VectorType};
+            use $crate::linear_algebra::vectors::{Vector, VectorType};
             let x: Vector<$intotype> = {
                 let mut temp_vec = Vector::new(VectorType::$vectype);
                 $(
@@ -36,7 +36,7 @@ macro_rules! vector {
     };
     ($vectype:ident, $intotype:ty, $($x:expr),*) => {
         {
-            use $crate::vectors::{Vector, VectorType};
+            use $crate::linear_algebra::vectors::{Vector, VectorType};
             let x: Vector<$intotype> = {
                 let mut temp_vec = Vector::new(VectorType::$vectype);
                 $(
@@ -49,7 +49,7 @@ macro_rules! vector {
     };
     ($vectype:ident, $($x:expr),*) => {
         {
-            use $crate::vectors::{Vector, VectorType};
+            use $crate::linear_algebra::vectors::{Vector, VectorType};
             let mut temp_vec = Vector::new(VectorType::$vectype);
             $(
                 temp_vec.push($x);
@@ -59,7 +59,7 @@ macro_rules! vector {
     };
     ($($x:expr),*) => {
         {
-            use $crate::vectors::{Vector, VectorType};
+            use $crate::linear_algebra::vectors::{Vector, VectorType};
             let mut temp_vec = Vector::new(VectorType::Row);
             $(
                 temp_vec.push($x);

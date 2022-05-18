@@ -7,9 +7,3 @@ pub mod vector_items;
 pub use matrix_items::matrices;
 #[cfg(feature = "vectors")]
 pub use vector_items::vectors;
-
-// The Macros
-#[cfg(feature = "matrices")]
-pub use matrix_items::matrices::matrix;
-#[cfg(feature = "vectors")]
-pub use vector_items::vectors::vector;

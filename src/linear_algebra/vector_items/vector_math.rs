@@ -1,6 +1,6 @@
 use std::ops::{Add, Mul};
 
-use crate::matrix_items::matrix::Matrix;
+use crate::linear_algebra::matrices::Matrix;
 
 use super::vectors::{Vector, VectorGeneric};
 

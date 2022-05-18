@@ -1,9 +1,8 @@
 use std::{fmt::Display, ops::Mul};
 
-use crate::{
-    vector,
+use crate::{linear_algebra::{
     vectors::{Vector, VectorGeneric},
-};
+}, vector};
 
 #[macro_export]
 macro_rules! matrix {
@@ -39,8 +38,8 @@ macro_rules! matrix {
     };
     ($($($x:expr),*)=>*) => {
         {
-            use $crate::vectors::{Vector, VectorType};
-            use $crate::matrix::{Matrix};
+            use $crate::linear_algebra::vectors::{Vector, VectorType};
+            use $crate::linear_algebra::matrices::{Matrix};
             let mut temp_matrix = Matrix::new(vec![]);
             $(
                 let mut temp_vec = Vector::new(VectorType::Row);
