@@ -60,6 +60,7 @@ macro_rules! vector {
     ($($x:expr),*) => {
         {
             use $crate::linear_algebra::vectors::{Vector, VectorType};
+            #[allow(unused_mut)]
             let mut temp_vec = Vector::new(VectorType::Row);
             $(
                 temp_vec.push($x);
