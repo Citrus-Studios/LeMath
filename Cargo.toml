@@ -19,3 +19,4 @@ calculus = ["integrals", "derivatives"]
 all = ["linear-algebra", "calculus"]
 
 [dependencies]
+unstringify = "0.1.4"
