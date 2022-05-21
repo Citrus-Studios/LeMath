@@ -3,8 +3,9 @@
 #![feature(trivial_bounds)]
 #![feature(trait_alias)]
 
+pub mod equation;
 pub mod summation;
 pub mod traitbounds;
 
-pub mod linear_algebra;
 pub mod calculus;
+pub mod linear_algebra;
