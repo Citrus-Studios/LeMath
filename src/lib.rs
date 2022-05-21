@@ -7,3 +7,4 @@ pub mod summation;
 pub mod traitbounds;
 
 pub mod linear_algebra;
+pub mod calculus;

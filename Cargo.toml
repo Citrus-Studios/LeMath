@@ -6,10 +6,16 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [features]
+# Linear Algebra
 vectors = []
 matrices = ["vectors"]
 linear-algebra = ["matrices"]
-all = ["linear-algebra"]
 
+# Calculus
+integrals = []
+derivatives = []
+calculus = ["integrals", "derivatives"]
+
+all = ["linear-algebra", "calculus"]
 
 [dependencies]
