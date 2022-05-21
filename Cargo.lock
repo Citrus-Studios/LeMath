@@ -3,9 +3,14 @@
 version = 3
 
 [[package]]
+name = "equation"
+version = "0.1.0"
+
+[[package]]
 name = "lemath"
 version = "0.1.0"
 dependencies = [
+ "equation",
  "unstringify",
 ]
 
