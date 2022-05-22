@@ -18,4 +18,8 @@ calculus = ["integrals", "derivatives"]
 
 all = ["linear-algebra", "calculus"]
 
+default = ["all"]
+
 [dependencies]
+unstringify = "0.1.4"
+function_from_equation = { path = "../equation" }
