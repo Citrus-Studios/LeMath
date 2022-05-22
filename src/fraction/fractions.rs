@@ -2,7 +2,7 @@ use std::fmt::{Debug, Display, Write};
 
 use crate::helper::{GetDecimal, GCD};
 
-#[derive(Clone, Copy, PartialEq, PartialOrd)]
+#[derive(Clone, Copy, PartialOrd)]
 pub struct Fraction {
     pub numerator: i128,
     pub denominator: i128,
@@ -17,7 +17,7 @@ impl Fraction {
         .reduce()
     }
     pub fn from_float(value: f64) -> Self {
-        let ten_pow = 10_u32.pow(format!("{}", value.get_decimal()).len() as u32);
+        let ten_pow = 10_u128.pow(format!("{}", value.get_decimal()).len() as u32);
         let numerator = (value.trunc() as i128 * ten_pow as i128) + (value.get_decimal() as i128);
         let denominator = ten_pow as i128;
         return Fraction::new(numerator, denominator).reduce();
@@ -46,6 +46,16 @@ impl Debug for Fraction {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.numerator as f64 / self.denominator as f64).unwrap();
         f.write_str("")
+    }
+}
+
+impl PartialEq for Fraction {
+    fn eq(&self, other: &Self) -> bool {
+        let newself = self.reduce();
+        let newother = other.reduce();
+        // println!("Self {{\n    old = {self},\n    new = {newself}\n}}");
+        // println!("Other {{\n    old = {other},\n    new = {newother}\n}}");
+        newself.numerator == newother.numerator && newself.denominator == newother.denominator
     }
 }
 
