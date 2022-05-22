@@ -1,3 +1,5 @@
+pub use function_from_equation::equation;
+
 #[test]
 fn equation_macro_test() {
     use function_from_equation::equation;
