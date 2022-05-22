@@ -1,8 +1,8 @@
-use std::fmt::{Display, Write};
+use std::fmt::{Debug, Display, Write};
 
 use crate::helper::{GetDecimal, GCD};
 
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
+#[derive(Clone, Copy, PartialEq, PartialOrd)]
 pub struct Fraction {
     pub numerator: i128,
     pub denominator: i128,
@@ -38,6 +38,13 @@ impl Fraction {
 impl Display for Fraction {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}/{}", self.numerator, self.denominator).unwrap();
+        f.write_str("")
+    }
+}
+
+impl Debug for Fraction {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.numerator as f64 / self.denominator as f64).unwrap();
         f.write_str("")
     }
 }
