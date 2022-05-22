@@ -1,5 +1,3 @@
-use crate::equation::equation;
-
 /// Calculus Integral
 /// Find the area underneath a curve
 pub struct Integral<F> {
@@ -24,5 +22,7 @@ impl<F> Integral<F> {
 
 #[test]
 fn integral_test() {
+    use crate::equation::equation;
+
     let x = Integral::new(equation!(10x + 3));
 }
