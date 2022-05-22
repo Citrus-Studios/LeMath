@@ -1,6 +1,6 @@
 pub struct Fraction {
-    numerator: i128,
-    denominator: i128,
+    pub numerator: i128,
+    pub denominator: i128,
 }
 
 impl Fraction {
