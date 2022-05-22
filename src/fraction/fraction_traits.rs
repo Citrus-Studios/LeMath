@@ -60,7 +60,7 @@ impl Sub for Fraction {
     type Output = Self;
 
     fn sub(self, rhs: Self) -> Self::Output {
-        self * Fraction::new(-rhs.numerator, rhs.numerator)
+        self + Fraction::new(-rhs.numerator, rhs.numerator)
     }
 }
 
