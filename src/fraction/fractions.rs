@@ -233,6 +233,18 @@ impl Default for Fraction {
     }
 }
 
+impl From<f32> for Fraction {
+    fn from(from: f32) -> Self {
+        Fraction::from_float(from as f64)
+    }
+}
+
+impl From<f64> for Fraction {
+    fn from(from: f64) -> Self {
+        Fraction::from_float(from)
+    }
+}
+
 #[test]
 fn fraction_test() {
     let x = Fraction::from_float(10.2044982);
