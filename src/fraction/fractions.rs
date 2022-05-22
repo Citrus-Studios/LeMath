@@ -26,13 +26,8 @@ impl Fraction {
         let mut numerator = self.numerator;
         let mut denominator = self.denominator;
         let gcd = numerator.gcd(denominator);
-        if gcd != 0 {
-            numerator /= gcd;
-            denominator /= gcd;
-        } else {
-            numerator = 0;
-            denominator = 1;
-        }
+        numerator /= gcd;
+        denominator /= gcd;
         return Fraction {
             numerator,
             denominator,
