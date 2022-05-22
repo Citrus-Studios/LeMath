@@ -1,3 +1,5 @@
+use std::fmt::{Display, Write};
+
 use crate::helper::{GetDecimal, GCD};
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
@@ -30,6 +32,13 @@ impl Fraction {
             numerator,
             denominator,
         };
+    }
+}
+
+impl Display for Fraction {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}/{}", self.numerator, self.denominator).unwrap();
+        f.write_str("")
     }
 }
 
