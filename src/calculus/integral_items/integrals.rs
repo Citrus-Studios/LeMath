@@ -1,4 +1,4 @@
-use equation::equation;
+use crate::equation::equation;
 
 /// Calculus Integral
 /// Find the area underneath a curve
@@ -16,7 +16,7 @@ pub enum IntegrationType {
 impl<F> Integral<F> {
     pub fn new(equation: F) -> Self {
         Self {
-            integration: ReimannSum,
+            integration: IntegrationType::ReimannSum,
             equation,
         }
     }
