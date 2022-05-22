@@ -1,8 +1,11 @@
+use std::marker::PhantomData;
+
 /// Calculus Integral
 /// Find the area underneath a curve
-pub struct Integral<F> {
+pub struct Integral<A, F: Fn<A>> {
     integration: IntegrationType,
     equation: F,
+    _marker: PhantomData<A>,
 }
 
 /// Integration type for Integrals
@@ -11,11 +14,12 @@ pub enum IntegrationType {
     ReimannTrapozoidalSum,
 }
 
-impl<F> Integral<F> {
+impl<A, F: Fn<A>> Integral<A, F> {
     pub fn new(equation: F) -> Self {
         Self {
             integration: IntegrationType::ReimannSum,
             equation,
+            _marker: PhantomData,
         }
     }
 }
