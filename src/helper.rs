@@ -1,3 +1,35 @@
+/// A trait to losslessly get the decimal part of a float
+///
+/// # Examples
+/// ```
+/// use lemonmath::helper::GetDecimal;
+///
+/// let x = 1.12;
+///
+/// assert_eq!(x.get_decimal(), 12);
+/// ```
+pub trait GetDecimal {
+    fn get_decimal(&self) -> u128;
+}
+
+macro_rules! impl_get_decimal {
+    ($name:ident for $($t:ty)*) => ($(
+        impl $name for $t {
+            fn get_decimal(&self) -> u128 {
+                if self.floor().to_string() != self.to_string() {
+                    let decimalstring = &self.to_string()[(self.floor()).to_string().len()+1..];
+                    let decimalnumber = decimalstring.parse::<u128>().unwrap();
+                    return decimalnumber;
+                } else {
+                    return 0u128;
+                }
+            }
+        }
+    )*)
+}
+
+impl_get_decimal!(GetDecimal for f32 f64);
+
 /// This is a helper trait to find gcd of two numbers
 ///
 /// # Examples
