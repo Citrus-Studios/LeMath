@@ -2,16 +2,16 @@
 An assortment of helper functions used in the library
 !*/
 
-use crate::fraction::Fraction;
+use crate::fraction::fractions::Fraction;
 
 /// A trait to losslessly get the decimal part of a float
-/// 
+///
 /// # Examples
 /// ```
 /// use lemonmath::helper::GetDecimal;
-/// 
+///
 /// let x = 1.12;
-/// 
+///
 /// assert_eq!(x.get_decimal(), 12);
 /// ```
 pub trait GetDecimal {
@@ -37,13 +37,13 @@ macro_rules! impl_get_decimal {
 impl_get_decimal!(GetDecimal for f32 f64);
 
 /// Exponents for unsigned integers
-/// 
+///
 /// # Examples
 /// ```
 /// use lemonmath::helper::BetterExponent;
-/// 
+///
 /// let x = 2u32.pow(3);
-/// 
+///
 /// assert_eq!(x, 8);
 /// ```
 pub trait BetterExponent {
@@ -67,14 +67,14 @@ macro_rules! impl_better_exponent {
 impl_better_exponent!(BetterExponent for u8 u16 u32 u64 u128);
 
 /// This turns a Vector of numbers into a Vector of Fractions
-/// 
+///
 /// # Examples
 /// ```
 /// use lemonmath::helper::VecToFraction;
 /// use lemonmath::fraction::Fraction;
-/// 
+///
 /// let x = vec![1u8, 2u8, 3u8, 4u8, 5u8].to_fraction();
-/// 
+///
 /// assert_eq!(x[0], Fraction::new(1, 1));
 /// assert_eq!(x[1], Fraction::new(2, 1));
 /// assert_eq!(x[2], Fraction::new(3, 1));
@@ -102,14 +102,14 @@ macro_rules! impl_vec_to_fraction {
 impl_vec_to_fraction!(VecToFraction for u8 u16 u32 u64 u128 i8 i16 i32 i64 i128 usize f32 f64);
 
 /// This is a helper trait to find gcd of two numbers
-/// 
+///
 /// # Examples
 /// ```
 /// use lemonmath::helper::GCD;
-/// 
+///
 /// let x = (2, 4);
 ///
-/// assert_eq!(x.0.gcd(x.1), 2); 
+/// assert_eq!(x.0.gcd(x.1), 2);
 /// ```
 pub trait GCD {
     fn gcd(self, other: Self) -> Self;
@@ -134,30 +134,30 @@ macro_rules! impl_gcd {
                 if m == 0 || n == 0 {
                     return (m | n).abs();
                 }
-            
+
                 // find common factors of 2
                 let shift = (m | n).trailing_zeros();
-            
+
                 // The algorithm needs positive numbers, but the minimum value
                 // can't be represented as a positive one.
                 // It's also a power of two, so the gcd can be
                 // calculated by bitshifting in that case
-            
+
                 // Assuming two's complement, the number created by the shift
                 // is positive for all numbers except gcd = abs(min value)
                 // The call to .abs() causes a panic in debug mode
                 if m == Self::min_value() || n == Self::min_value() {
                     return ((1 << shift) as $t).abs();
                 }
-            
+
                 // guaranteed to be positive now, rest like unsigned algorithm
                 m = m.abs();
                 n = n.abs();
-            
+
                 // divide n and m by 2 until odd
                 m >>= m.trailing_zeros();
                 n >>= n.trailing_zeros();
-            
+
                 while m != n {
                     if m > n {
                         m -= n;
@@ -173,4 +173,4 @@ macro_rules! impl_gcd {
     )*)
 }
 
-impl_gcd!(GCD for i8 i16 i32 i64 i128 isize)
+impl_gcd!(GCD for i8 i16 i32 i64 i128 isize);
