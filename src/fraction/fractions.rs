@@ -53,19 +53,9 @@ assert_eq!(x, Fraction::new(5, 1));
 ```
 */
 
-use std::{
-    fmt::{Display, Formatter},
-    ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign},
-};
+use std::fmt::{Display, Formatter};
 
 use crate::helper::{GetDecimal, GCD};
-
-#[test]
-fn fraction_test() {
-    let x = Fraction::from_float(10.2044982);
-    let y = Fraction::from_float(1.0);
-    println!("{}", x);
-}
 
 /// A struct to replace floats
 ///
@@ -129,7 +119,7 @@ impl Fraction {
     ///
     /// assert_eq!(x.add_number(y), Fraction::new(7, 6));
     /// ```
-    pub fn add_number(&self, other: Self) -> Self {
+    pub fn add_number(self, other: Self) -> Self {
         let mut numerator = self.numerator * other.denominator + other.numerator * self.denominator;
         let mut denominator = self.denominator * other.denominator;
         let gcd = numerator.gcd(denominator);
@@ -148,7 +138,7 @@ impl Fraction {
     ///
     /// assert_eq!(x.mul_number(y), Fraction::new(1, 3));
     /// ```
-    pub fn mul_number(&self, other: Self) -> Self {
+    pub fn mul_number(self, other: Self) -> Self {
         let mut numerator = self.numerator * other.numerator;
         let mut denominator = self.denominator * other.denominator;
         let gcd = numerator.gcd(denominator);
@@ -167,8 +157,8 @@ impl Fraction {
     ///
     /// assert_eq!(x.div_number(y), Fraction::new(3, 4));
     /// ```
-    pub fn div_number(&self, other: Self) -> Self {
-        return self.mul(Fraction::new(other.denominator, other.numerator));
+    pub fn div_number(self, other: Self) -> Self {
+        return self.mul_number(Fraction::new(other.denominator, other.numerator));
     }
     /// This subtracts two fractions
     ///
@@ -181,8 +171,8 @@ impl Fraction {
     ///
     /// assert_eq!(x.sub_number(y), Fraction::new(-1, 6));
     /// ```
-    pub fn sub_number(&self, other: Self) -> Self {
-        return self.add(Fraction::new(-other.numerator, other.denominator));
+    pub fn sub_number(self, other: Self) -> Self {
+        return self.add_number(Fraction::new(-other.numerator, other.denominator));
     }
     /// This reduces the fraction to its lowest terms
     ///
@@ -207,82 +197,6 @@ impl Fraction {
     }
 }
 
-impl Add for Fraction {
-    type Output = Self;
-
-    /// This adds two fractions together
-    ///
-    /// # Examples
-    /// ```
-    /// use lemonmath::fraction::Fraction;
-    ///
-    /// let x = Fraction::new(1, 2);
-    /// let y = Fraction::new(2, 3);
-    ///
-    /// assert_eq!(x + y, Fraction::new(7, 6));
-    /// ```
-    fn add(self, other: Self) -> Self {
-        return self.add_number(other);
-    }
-}
-
-impl Sub for Fraction {
-    type Output = Self;
-
-    /// This subtracts two fractions
-    ///
-    /// # Examples
-    /// ```
-    /// use lemonmath::fraction::Fraction;
-    ///
-    /// let x = Fraction::new(1, 2);
-    /// let y = Fraction::new(2, 3);
-    ///
-    /// assert_eq!(x - y, Fraction::new(-1, 6));
-    /// ```
-    fn sub(self, other: Self) -> Self {
-        return self.sub_number(other);
-    }
-}
-
-impl Mul for Fraction {
-    type Output = Self;
-
-    /// This multiplies two fractions together
-    ///
-    /// # Examples
-    /// ```
-    /// use lemonmath::fraction::Fraction;
-    ///
-    /// let x = Fraction::new(1, 2);
-    /// let y = Fraction::new(2, 3);
-    ///
-    /// assert_eq!(x * y, Fraction::new(1, 3));
-    /// ```
-    fn mul(self, other: Self) -> Self {
-        return self.mul_number(other);
-    }
-}
-
-impl Div for Fraction {
-    type Output = Self;
-
-    /// This divides two fractions
-    ///
-    /// # Examples
-    /// ```
-    /// use lemonmath::fraction::Fraction;
-    ///
-    /// let x = Fraction::new(1, 2);
-    /// let y = Fraction::new(2, 3);
-    ///
-    /// assert_eq!(x / y, Fraction::new(3, 4));
-    /// ```
-    fn div(self, other: Self) -> Self {
-        return self.div_number(other);
-    }
-}
-
 impl Display for Fraction {
     /// This displays the fraction as a string
     ///
@@ -303,78 +217,6 @@ impl Display for Fraction {
     }
 }
 
-impl AddAssign for Fraction {
-    /// This adds two fractions together and then assigns the result to the original fraction
-    ///
-    /// # Examples
-    /// ```
-    /// use lemonmath::fraction::Fraction;
-    ///
-    /// let mut x = Fraction::new(1, 2);
-    /// let y = Fraction::new(2, 3);
-    ///
-    /// x += y;
-    /// assert_eq!(x, Fraction::new(7, 6));
-    /// ```
-    fn add_assign(&mut self, other: Self) {
-        *self = *self + other;
-    }
-}
-
-impl SubAssign for Fraction {
-    /// This subtracts two fractions and then assigns the result to the original fraction
-    ///
-    /// # Examples
-    /// ```
-    /// use lemonmath::fraction::Fraction;
-    ///
-    /// let mut x = Fraction::new(1, 2);
-    /// let y = Fraction::new(2, 3);
-    ///
-    /// x -= y;
-    /// assert_eq!(x, Fraction::new(-1, 6));
-    /// ```
-    fn sub_assign(&mut self, other: Self) {
-        *self = *self - other;
-    }
-}
-
-impl MulAssign for Fraction {
-    /// This multiplies two fractions and then assigns the result to the original fraction
-    ///
-    /// # Examples
-    /// ```
-    /// use lemonmath::fraction::Fraction;
-    ///     
-    /// let mut x = Fraction::new(1, 2);
-    /// let y = Fraction::new(2, 3);
-    ///
-    /// x *= y;
-    /// assert_eq!(x, Fraction::new(1, 3));
-    /// ```
-    fn mul_assign(&mut self, other: Self) {
-        *self = *self * other;
-    }
-}
-
-impl DivAssign for Fraction {
-    /// This divides two fractions and then assigns the result to the original fraction
-    ///
-    /// # Examples
-    /// ```
-    /// use lemonmath::fraction::Fraction;
-    ///
-    /// let mut x = Fraction::new(1, 2);
-    /// let y = Fraction::new(2, 3);
-    ///
-    /// x /= y;
-    /// assert_eq!(x, Fraction::new(3, 4));
-    /// ```
-    fn div_assign(&mut self, other: Self) {
-        *self = *self / other;
-    }
-}
-
 impl Default for Fraction {
     /// This returns a fraction with a numerator of 0 and a denominator of 1
     ///
@@ -389,4 +231,11 @@ impl Default for Fraction {
     fn default() -> Self {
         return Fraction::new(0, 1);
     }
+}
+
+#[test]
+fn fraction_test() {
+    let x = Fraction::from_float(10.2044982);
+    let y = Fraction::from_float(1.0);
+    println!("{}", x);
 }
