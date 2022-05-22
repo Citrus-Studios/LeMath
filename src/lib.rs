@@ -2,6 +2,7 @@
 #![feature(step_trait)]
 #![feature(trivial_bounds)]
 #![feature(trait_alias)]
+#![feature(unboxed_closures)]
 
 pub mod equation;
 pub mod summation;
