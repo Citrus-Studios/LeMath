@@ -18,16 +18,23 @@ macro_rules! from_fraction {
             }
 
 
+            impl Mul<$x> for Fraction {
+                type Output = Fraction;
+
+                fn mul(self, rhs: $x) -> Self::Output {
+                    self * Fraction::from(rhs as f64)
+                }
+            }
+
+            impl Mul<Fraction> for $x {
+                type Output = Fraction;
+
+                fn mul(self, rhs: Fraction) -> Self::Output {
+                    Fraction::from(self as f64) * rhs
+                }
+            }
         )*
     };
 }
 
 from_fraction!(u8 u16 u32 u64 u128 usize i8 i16 i32 i64 i128 isize f32 f64);
-
-impl Mul<i32> for Fraction {
-    type Output = Fraction;
-
-    fn mul(self, rhs: i32) -> Self::Output {
-        self * (rhs as f64).into()
-    }
-}
