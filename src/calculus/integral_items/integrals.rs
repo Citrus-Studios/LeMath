@@ -27,17 +27,26 @@ impl Integral {
             equation,
             from: from.into(),
             to: to.into(),
-            sampling_rate: 32,
+            sampling_rate: 10000,
         }
     }
     pub fn set_sampling_rate(mut self, sampling_rate: i64) -> Self {
         self.sampling_rate = sampling_rate;
         self
     }
+    pub fn set_integration_type(mut self, integration_type: IntegrationType) -> Self {
+        self.integration = integration_type;
+        self
+    }
+    /// Reimann sum for computing integral
     pub fn reimann_sum(&self) -> Fraction {
         let dx = (self.to - self.from) / self.sampling_rate.into();
-
-        todo!();
+        let mut res = Fraction::from(0);
+        for x in 1..=self.sampling_rate {
+            res += dx * (self.equation)(self.from + Fraction::from(x) * dx);
+            // println!("{x} {res:?} {dx:?}");
+        }
+        return res;
     }
     pub fn build(&self) -> Fraction {
         return match self.integration {
@@ -49,10 +58,11 @@ impl Integral {
 
 #[test]
 fn integral_test() {
-    let x = Integral::new(0.0, 3.0, |x| {
-        return x;
-    })
-    .set_sampling_rate(4)
-    .build();
-    assert_eq!(4.5, x.into());
+    use crate::equation::equation;
+
+    let x = Integral::new(0.0, 3.0, |x| 10 * x * 10 * x + 3)
+        .set_sampling_rate(64000)
+        .build();
+    let x = f64::from(x);
+    assert_eq!(4.5f64, x);
 }
