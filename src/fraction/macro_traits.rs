@@ -1,3 +1,4 @@
+use std::ops::Add;
 use std::ops::Mul;
 
 use super::fractions::Fraction;
@@ -30,6 +31,22 @@ macro_rules! from_fraction {
                 type Output = Fraction;
 
                 fn mul(self, rhs: Fraction) -> Self::Output {
+                    Fraction::from(self as f64) * rhs
+                }
+            }
+
+            impl Add<$x> for Fraction {
+                type Output = Fraction;
+
+                fn add(self, rhs: $x) -> Self::Output {
+                    self * Fraction::from(rhs as f64)
+                }
+            }
+
+            impl Add<Fraction> for $x {
+                type Output = Fraction;
+
+                fn add(self, rhs: Fraction) -> Self::Output {
                     Fraction::from(self as f64) * rhs
                 }
             }
