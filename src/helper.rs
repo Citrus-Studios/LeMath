@@ -9,19 +9,19 @@
 /// assert_eq!(x.get_decimal(), 12);
 /// ```
 pub trait GetDecimal {
-    fn get_decimal(&self) -> u128;
+    fn get_decimal(&self) -> (String, bool);
 }
 
 macro_rules! impl_get_decimal {
     ($name:ident for $($t:ty)*) => ($(
         impl $name for $t {
-            fn get_decimal(&self) -> u128 {
+            fn get_decimal(&self) -> (String, bool) {
                 if self.floor().to_string() != self.to_string() {
-                    let decimalstring = &self.to_string()[(self.floor()).to_string().len()+1..];
-                    let decimalnumber = decimalstring.parse::<u128>().unwrap();
-                    return decimalnumber;
+                    let self_to_string = self.to_string();
+                    let decimalstring = &self_to_string[(self.floor()).to_string().len()+1..];
+                    return (decimalstring.to_string(), self.is_sign_negative());
                 } else {
-                    return 0u128;
+                    return (0u128.to_string(), false);
                 }
             }
         }

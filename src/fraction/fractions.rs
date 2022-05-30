@@ -17,9 +17,13 @@ impl Fraction {
         .reduce()
     }
     pub fn from_float(value: f64) -> Self {
-        let ten_pow = 10_u128.pow(format!("{}", value.get_decimal()).len() as u32);
-        let numerator = (value.trunc() as i128 * ten_pow as i128) + (value.get_decimal() as i128);
+        let ten_pow = 10_u128.pow(value.get_decimal().0.len() as u32);
+        let numerator = (value.trunc() as i128 * ten_pow as i128)
+            + (value.get_decimal().0.parse::<i128>().unwrap());
         let denominator = ten_pow as i128;
+        if value.get_decimal().1 {
+            return Fraction::new(-numerator, denominator).reduce();
+        }
         return Fraction::new(numerator, denominator).reduce();
     }
     pub fn reduce(&self) -> Self {
@@ -54,11 +58,7 @@ impl Debug for Fraction {
 
 impl PartialEq for Fraction {
     fn eq(&self, other: &Self) -> bool {
-        let newself = self.reduce();
-        let newother = other.reduce();
-        // println!("Self {{\n    old = {self},\n    new = {newself}\n}}");
-        // println!("Other {{\n    old = {other},\n    new = {newother}\n}}");
-        newself.numerator == newother.numerator && newself.denominator == newother.denominator
+        format!("{self:?}") == format!("{other:?}")
     }
 }
 
