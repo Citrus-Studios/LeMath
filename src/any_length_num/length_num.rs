@@ -48,7 +48,7 @@ impl<const U: usize> AnyLengthNum<U> {
 #[test]
 fn length_num_math() {
     let x = AnyLengthNum::<128>::new();
-    let y = 255;
-    let z = x + y + 255;
+    let y = 255u32;
+    let z = x + y + 255u32;
     println!("{:?}", z.num);
 }
