@@ -1,4 +1,6 @@
-use std::ops::{Add, Mul, Sub};
+use std::ops::{Add, Div, Mul, Sub};
+
+use crate::fractions_num::Fraction;
 
 use super::complex_nums::Complex;
 
@@ -26,5 +28,21 @@ impl Mul<Complex> for Complex {
             (self.real * rhs.real) - (self.imaginary * rhs.imaginary),
             (self.real * rhs.imaginary) + (self.imaginary * rhs.real),
         )
+    }
+}
+
+impl Div<Complex> for Complex {
+    type Output = Complex;
+
+    fn div(self, rhs: Self) -> Self::Output {
+        return self * rhs.conjugate() / rhs.abs_sq();
+    }
+}
+
+impl Div<Fraction> for Complex {
+    type Output = Complex;
+
+    fn div(self, rhs: Fraction) -> Self::Output {
+        return Complex::new(self.real / rhs, self.imaginary / rhs);
     }
 }
