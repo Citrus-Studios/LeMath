@@ -14,3 +14,5 @@ pub mod traitbounds;
 pub mod calculus;
 pub mod fraction;
 pub mod linear_algebra;
+
+pub use crate::fraction::fractions as fractions_num;
