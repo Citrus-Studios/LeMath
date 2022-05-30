@@ -15,10 +15,7 @@ impl Complex {
         self_clone.imaginary = -self_clone.imaginary;
         self_clone
     }
-    pub fn abs_sq(self) -> Self {
-        return Complex::new(
-            self.real * self.real + self.imaginary * self.imaginary,
-            0.into(),
-        );
+    pub fn abs_sq(self) -> Fraction {
+        self.real * self.real + self.imaginary * self.imaginary
     }
 }
