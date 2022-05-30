@@ -41,14 +41,14 @@ impl<T: EquationTrait, U: EquationTrait> Equation<T, U> {
 }
 
 #[test]
+fn equation_enum_test() {
+    let equation: Equation<i32, i32> = Equation::new("10x + 3");
+}
+
+#[test]
 fn equation_macro_test() {
     use function_from_equation::equation;
 
     let x = equation!(10 * x + 3 * y + 3 * z - 2 * a);
     assert_eq!(170, x(10, 20, 30, 40));
-}
-
-#[test]
-fn equation_enum_test() {
-    let equation: Equation<i32, i32> = Equation::new("10x + 3");
 }
