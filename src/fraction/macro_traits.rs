@@ -1,5 +1,4 @@
-use std::ops::Add;
-use std::ops::Mul;
+use std::ops::{Add, Div, Mul};
 
 use super::fractions::Fraction;
 
@@ -17,7 +16,6 @@ macro_rules! from_fraction {
                     from.numerator as $x / from.denominator as $x
                 }
             }
-
 
             impl Mul<$x> for Fraction {
                 type Output = Fraction;
@@ -48,6 +46,22 @@ macro_rules! from_fraction {
 
                 fn add(self, rhs: Fraction) -> Self::Output {
                     Fraction::from_float(self as f64) + rhs
+                }
+            }
+
+            impl Div<$x> for Fraction {
+                type Output = Fraction;
+
+                fn div(self, rhs: $x) -> Self::Output {
+                    self / Fraction::from_float(rhs as f64)
+                }
+            }
+
+            impl Div<Fraction> for $x {
+                type Output = Fraction;
+
+                fn div(self, rhs: Fraction) -> Self::Output {
+                    Fraction::from_float(self as f64) / rhs
                 }
             }
         )*
