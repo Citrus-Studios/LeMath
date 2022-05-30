@@ -16,6 +16,7 @@ impl<const U: usize> AnyLengthNum<U> {
         num
     }
     pub(crate) fn add_string_u8(a: String, b: u8) -> String {
+        // Credit to https://leetcode.com/problems/add-binary/discuss/1324370/Rust-solution
         let b = format!("{:b}", b);
         let mut carry = 0;
         let mut cur_sum = 0;
@@ -80,7 +81,7 @@ impl<const U: usize> From<String> for AnyLengthNum<U> {
 
 #[test]
 fn length_num_math() {
-    let x = AnyLengthNum::<2>::new();
+    let x = AnyLengthNum::<128>::new();
     let y = 255;
     let z = x + y + 255;
     println!("{:?}", z.num);
