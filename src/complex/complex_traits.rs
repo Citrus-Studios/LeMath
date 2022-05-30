@@ -70,3 +70,16 @@ impl Div<Fraction> for Complex {
         return Complex::new(self.real / rhs, self.imaginary / rhs);
     }
 }
+
+#[test]
+fn complex_math_test() {
+    let x = Complex::new(3.into(), 7.into());
+    let y = Complex::new(11.into(), 37.into());
+    assert_eq!(Complex::new(14.into(), 44.into()), x + y);
+    assert_eq!(Complex::new((-8).into(), (-30).into()), x - y);
+    assert_eq!(Complex::new((-226).into(), 188.into()), x * y);
+    assert_eq!(
+        Complex::new(0.1959731543624161.into(), (-0.022818791946308724).into()),
+        x / y
+    );
+}
