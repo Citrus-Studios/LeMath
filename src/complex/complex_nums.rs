@@ -1,6 +1,6 @@
 use crate::fractions_num::Fraction;
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 pub struct Complex {
     pub(crate) real: Fraction,
     pub(crate) imaginary: Fraction,
@@ -17,5 +17,8 @@ impl Complex {
     }
     pub fn abs_sq(self) -> Fraction {
         self.real * self.real + self.imaginary * self.imaginary
+    }
+    pub fn abs(self) -> f64 {
+        self.abs_sq().sqrt()
     }
 }
