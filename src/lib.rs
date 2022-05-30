@@ -5,6 +5,7 @@
 #![feature(fn_traits)]
 #![feature(unboxed_closures)]
 
+pub mod complex;
 pub mod equation;
 pub mod helper;
 pub mod summation;
