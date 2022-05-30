@@ -16,14 +16,16 @@ pub struct Integral {
 /// Integration type for Integrals
 #[derive(Clone, Copy, PartialEq, PartialOrd)]
 pub enum IntegrationType {
-    ReimannSum,
-    ReimannTrapozoidalSum,
+    ReimannSumLeft,
+    ReimannSumRight,
+    ReimannSumMid,
+    ReimannTrapezoidalSum,
 }
 
 impl Integral {
     pub fn new(from: f64, to: f64, equation: fn(Fraction) -> Fraction) -> Self {
         Self {
-            integration: IntegrationType::ReimannSum,
+            integration: IntegrationType::ReimannTrapezoidalSum,
             equation,
             from: from.into(),
             to: to.into(),
@@ -39,30 +41,46 @@ impl Integral {
         self
     }
     /// Reimann sum for computing integral
-    pub fn reimann_sum(&self) -> Fraction {
+    pub fn reimann_sum_left(&self) -> Fraction {
         let dx = (self.to - self.from) / self.sampling_rate.into();
         let mut res = Fraction::from(0);
-        for x in 1..=self.sampling_rate {
-            res += dx * (self.equation)(self.from + Fraction::from(x) * dx);
-            // println!("{x} {res:?} {dx:?}");
+        for x in 0..self.sampling_rate {
+            res += dx * (self.equation)(self.from + (x * dx));
+            // println!(
+            //     "{x} {} - {} {res:?} {dx:?}",
+            //     self.from + (x * dx),
+            //     (self.equation)(self.from + (x * dx))
+            // );
+        }
+        return res;
+    }
+    /// Reimann sum for computing integral
+    pub fn reimann_trapezoidal_sum(&self) -> Fraction {
+        let dx = (self.to - self.from) / self.sampling_rate.into();
+        let mut res = Fraction::from(0);
+        for x in 0..self.sampling_rate {
+            res += dx * (self.equation)(self.from + (x * dx));
+            // println!(
+            //     "{x} {} - {} {res:?} {dx:?}",
+            //     self.from + (x * dx),
+            //     (self.equation)(self.from + (x * dx))
+            // );
         }
         return res;
     }
     pub fn build(&self) -> Fraction {
         return match self.integration {
-            IntegrationType::ReimannSum => self.reimann_sum(),
-            IntegrationType::ReimannTrapozoidalSum => todo!(),
+            IntegrationType::ReimannSumLeft => self.reimann_sum_left(),
+            IntegrationType::ReimannTrapezoidalSum => todo!(),
+            IntegrationType::ReimannSumRight => todo!(),
+            IntegrationType::ReimannSumMid => todo!(),
         };
     }
 }
 
 #[test]
 fn integral_test() {
-    use crate::equation::equation;
-
-    let x = Integral::new(0.0, 3.0, |x| 10 * x * 10 * x + 3)
-        .set_sampling_rate(64000)
-        .build();
+    let x = Integral::new(0.0, 3.0, |x| (10 * x * 10 * x) + 3).build();
     let x = f64::from(x);
-    assert_eq!(4.5f64, x);
+    assert_eq!(909f64, x.round());
 }
