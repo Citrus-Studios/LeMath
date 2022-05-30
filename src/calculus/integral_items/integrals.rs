@@ -29,7 +29,7 @@ impl Integral {
             equation,
             from: from.into(),
             to: to.into(),
-            sampling_rate: 10000,
+            sampling_rate: 8000,
         }
     }
     pub fn set_sampling_rate(mut self, sampling_rate: i64) -> Self {
@@ -41,8 +41,9 @@ impl Integral {
         self
     }
     /// Reimann sum for computing integral
+    /// Using the Left point method
     pub fn reimann_sum_left(&self) -> Fraction {
-        let dx = (self.to - self.from) / self.sampling_rate.into();
+        let dx = (self.to - self.from) / self.sampling_rate;
         let mut res = Fraction::from(0);
         for x in 0..self.sampling_rate {
             res += dx * (self.equation)(self.from + (x * dx));
@@ -55,10 +56,11 @@ impl Integral {
         return res;
     }
     /// Reimann sum for computing integral
-    pub fn reimann_trapezoidal_sum(&self) -> Fraction {
-        let dx = (self.to - self.from) / self.sampling_rate.into();
+    /// Using the Right point method
+    pub fn reimann_sum_right(&self) -> Fraction {
+        let dx = (self.to - self.from) / self.sampling_rate;
         let mut res = Fraction::from(0);
-        for x in 0..self.sampling_rate {
+        for x in 1..=self.sampling_rate {
             res += dx * (self.equation)(self.from + (x * dx));
             // println!(
             //     "{x} {} - {} {res:?} {dx:?}",
@@ -68,12 +70,46 @@ impl Integral {
         }
         return res;
     }
+    /// Reimann sum for computing integral
+    /// Using the Mid point method
+    pub fn reimann_sum_mid(&self) -> Fraction {
+        let dx = (self.to - self.from) / self.sampling_rate;
+        let mut res = Fraction::from(0);
+        for x in 1..=self.sampling_rate {
+            res += dx * (self.equation)(self.from + ((2 * x - 1) * dx) / 2);
+            // println!(
+            //     "{x} {} - {} {res:?} {dx:?}",
+            //     self.from + (x * dx),
+            //     (self.equation)(self.from + (x * dx))
+            // );
+        }
+        return res;
+    }
+    /// Reimann sum for computing integral
+    /// Using the Trapezoidal method
+    pub fn reimann_trapezoidal_sum(&self) -> Fraction {
+        let dx = (self.to - self.from) / self.sampling_rate;
+        let mut res = Fraction::from(0);
+        for x in 0..self.sampling_rate {
+            if x == 0 || x == self.sampling_rate - 1 {
+                res += (self.equation)(self.from + dx * x);
+            } else {
+                res += 2 * (self.equation)(self.from + dx * x);
+            }
+            // println!(
+            //     "{x} {} - {} {res:?} {dx:?}",
+            //     self.from + (x * dx),
+            //     (self.equation)(self.from + (x * dx))
+            // );
+        }
+        return res * dx / 2;
+    }
     pub fn build(&self) -> Fraction {
         return match self.integration {
             IntegrationType::ReimannSumLeft => self.reimann_sum_left(),
-            IntegrationType::ReimannTrapezoidalSum => todo!(),
-            IntegrationType::ReimannSumRight => todo!(),
-            IntegrationType::ReimannSumMid => todo!(),
+            IntegrationType::ReimannSumRight => self.reimann_sum_right(),
+            IntegrationType::ReimannSumMid => self.reimann_sum_mid(),
+            IntegrationType::ReimannTrapezoidalSum => self.reimann_trapezoidal_sum(),
         };
     }
 }
