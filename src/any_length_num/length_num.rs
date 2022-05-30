@@ -1,7 +1,7 @@
-use std::{cmp::max, ops::Add, result};
+use std::{cmp::max, iter, ops::Add, result, str::Chars};
 
 pub struct AnyLengthNum<const U: usize> {
-    num: [u8; U],
+    pub num: [u8; U],
 }
 
 impl<const U: usize> AnyLengthNum<U> {
@@ -13,48 +13,34 @@ impl<const U: usize> AnyLengthNum<U> {
         for x in 1..self.num.len() {
             num = Self::add_string_u8(num, self.num[x]);
         }
-        println!("num: {num}");
         num
     }
-    pub(crate) fn add_string_u8(x: String, y: u8) -> String {
-        let x = x;
-        let y = format!("{:b}", y);
-        println!("({x}, {y})");
-        let max_len = max(x.len(), y.len());
-        let mut res = String::new();
+    pub(crate) fn add_string_u8(a: String, b: u8) -> String {
+        let b = format!("{:b}", b);
         let mut carry = 0;
-        for i in 0..max_len {
-            let i = max_len - 1 - i;
-            let mut r = carry;
-            r += {
-                if x.chars().nth(i).unwrap() == '1' {
-                    1
-                } else {
-                    0
+        let mut cur_sum = 0;
+        let mut char_vec = a
+            .as_bytes()
+            .iter()
+            .rev()
+            .chain(iter::repeat(&b'0'))
+            .zip(b.as_bytes().iter().rev().chain(iter::repeat(&b'0')))
+            .take(a.len().max(b.len()))
+            .map(|(ac, bc)| {
+                cur_sum = (*ac - b'0') + (*bc - b'0') + carry;
+                carry = cur_sum / 2;
+                match cur_sum % 2 {
+                    1 => '1',
+                    _ => '0',
                 }
-            };
-            r += {
-                if y.chars().nth(i).unwrap() == '1' {
-                    1
-                } else {
-                    0
-                }
-            };
-            if r % 2 == 1 {
-                res.push('1')
-            }
-            carry = {
-                if r < 2 {
-                    0;
-                }
-                1
-            }
+            })
+            .collect::<Vec<_>>();
+
+        if carry == 1 {
+            char_vec.push('1');
         }
 
-        if carry != 0 {
-            res.push('1');
-        }
-        res
+        char_vec.iter().rev().collect()
     }
 }
 
@@ -64,24 +50,38 @@ trait ZFill {
 
 impl ZFill for String {
     fn zfill(&mut self, len: usize) {
-        for _ in len..=self.len() {
+        for _ in self.len()..len {
             self.insert(0, '0');
         }
     }
 }
 
 impl<const U: usize> Add<u8> for AnyLengthNum<U> {
-    type Output = String;
+    type Output = AnyLengthNum<U>;
 
     fn add(self, rhs: u8) -> Self::Output {
-        Self::add_string_u8(self.to_string(), rhs)
+        Self::add_string_u8(self.to_string(), rhs).into()
+    }
+}
+
+impl<const U: usize> From<String> for AnyLengthNum<U> {
+    fn from(from: String) -> Self {
+        let mut res = AnyLengthNum::<U>::new();
+        let mut from = from;
+        from.zfill(U * 8);
+        println!("From: {from}");
+        for x in 0..U {
+            res.num[x] = u8::from_str_radix(&from.as_str()[x * 8..x * 8 + 8], 2).unwrap();
+        }
+
+        res
     }
 }
 
 #[test]
 fn length_num_math() {
     let x = AnyLengthNum::<2>::new();
-    let y = 10;
-    let z = x + y;
-    println!("{z}");
+    let y = 255;
+    let z = x + y + 255;
+    println!("{:?}", z.num);
 }
