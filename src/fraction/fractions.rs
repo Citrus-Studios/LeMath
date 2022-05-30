@@ -33,6 +33,9 @@ impl Fraction {
             denominator,
         };
     }
+    pub fn sqrt(&self) -> f64 {
+        ((self.numerator * self.denominator) as f64).sqrt() / self.denominator as f64
+    }
 }
 
 impl Display for Fraction {
