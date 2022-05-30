@@ -1,4 +1,4 @@
-use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
 use crate::helper::GCD;
 
@@ -67,6 +67,14 @@ impl Sub for Fraction {
 impl SubAssign for Fraction {
     fn sub_assign(&mut self, rhs: Self) {
         *self = *self - rhs;
+    }
+}
+
+impl Neg for Fraction {
+    type Output = Fraction;
+
+    fn neg(self) -> Self::Output {
+        Fraction::new(-self.numerator, self.denominator)
     }
 }
 
