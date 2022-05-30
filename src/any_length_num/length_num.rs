@@ -11,11 +11,11 @@ impl<const U: usize> AnyLengthNum<U> {
     pub fn to_string(&self) -> String {
         let mut num = format!("{:b}", self.num[0]);
         for x in 1..self.num.len() {
-            num = Self::add_string_u8(num, self.num[x]);
+            num = Self::add_string(num, self.num[x].into());
         }
         num
     }
-    pub(crate) fn add_string_u8(a: String, b: u8) -> String {
+    pub(crate) fn add_string(a: String, b: u128) -> String {
         // Credit to https://leetcode.com/problems/add-binary/discuss/1324370/Rust-solution
         let b = format!("{:b}", b);
         let mut carry = 0;
