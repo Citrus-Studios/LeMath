@@ -1,5 +1,3 @@
-use std::marker::PhantomData;
-
 use crate::fraction::fractions::Fraction;
 
 /// Calculus Integral
