@@ -39,6 +39,30 @@ impl Div<Complex> for Complex {
     }
 }
 
+impl Add<Fraction> for Complex {
+    type Output = Complex;
+
+    fn add(self, rhs: Fraction) -> Self::Output {
+        return Complex::new(self.real + rhs, self.imaginary);
+    }
+}
+
+impl Sub<Fraction> for Complex {
+    type Output = Complex;
+
+    fn sub(self, rhs: Fraction) -> Self::Output {
+        return Complex::new(self.real - rhs, self.imaginary);
+    }
+}
+
+impl Mul<Fraction> for Complex {
+    type Output = Complex;
+
+    fn mul(self, rhs: Fraction) -> Self::Output {
+        return Complex::new(self.real * rhs, self.imaginary * rhs);
+    }
+}
+
 impl Div<Fraction> for Complex {
     type Output = Complex;
 
