@@ -23,7 +23,7 @@ macro_rules! from_fraction {
                 type Output = Fraction;
 
                 fn mul(self, rhs: $x) -> Self::Output {
-                    self * Fraction::from(rhs as f64)
+                    self * Fraction::from_float(rhs as f64)
                 }
             }
 
@@ -31,7 +31,7 @@ macro_rules! from_fraction {
                 type Output = Fraction;
 
                 fn mul(self, rhs: Fraction) -> Self::Output {
-                    Fraction::from(self as f64) * rhs
+                    Fraction::from_float(self as f64) * rhs
                 }
             }
 
@@ -39,7 +39,7 @@ macro_rules! from_fraction {
                 type Output = Fraction;
 
                 fn add(self, rhs: $x) -> Self::Output {
-                    self * Fraction::from(rhs as f64)
+                    self + Fraction::from_float(rhs as f64)
                 }
             }
 
@@ -47,7 +47,7 @@ macro_rules! from_fraction {
                 type Output = Fraction;
 
                 fn add(self, rhs: Fraction) -> Self::Output {
-                    Fraction::from(self as f64) * rhs
+                    Fraction::from_float(self as f64) + rhs
                 }
             }
         )*
