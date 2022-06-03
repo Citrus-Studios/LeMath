@@ -95,6 +95,7 @@ impl<T: VectorGeneric<T>> Matrix<T> {
 
 #[test]
 fn matrix_test() {
+    use crate::vector;
     let x = matrix!(10, 20, 30 => 40, 50, 60 => 70, 80, 90);
     println!("{x}");
     let y = vector![1, 2, 3];
