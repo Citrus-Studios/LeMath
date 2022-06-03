@@ -8,6 +8,7 @@ pub enum Equation<T: EquationTrait, U: EquationTrait> {
     SubVariable(T),
     MulVariable(T),
     DivVariable(T),
+    Parenthesis(T),
 }
 
 pub trait EquationTrait {}
