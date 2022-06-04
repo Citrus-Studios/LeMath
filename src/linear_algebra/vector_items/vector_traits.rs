@@ -61,6 +61,9 @@ impl<T: VectorGeneric<T>> Iterator for Vector<T> {
 
     fn next(&mut self) -> Option<Self::Item> {
         self.iter_idx += 1;
-        self.get(self.iter_idx - 1)
+        match self.get(self.iter_idx - 1) {
+            Some(e) => Some(*e),
+            None => None,
+        }
     }
 }
