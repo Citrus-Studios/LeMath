@@ -64,6 +64,40 @@ impl<T: VectorGeneric<T>> Display for Matrix<T> {
     }
 }
 
+impl<T: VectorGeneric<T>> Iterator for Matrix<T> {
+    type Item = T;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        match self.contents.get_mut(self.idx) {
+            Some(v) => match v.next() {
+                Some(e) => Some(e),
+                None => {
+                    self.idx += 1;
+                    if self.idx >= self.contents.len() {
+                        return None;
+                    }
+                    self.next()
+                }
+            },
+            None => {
+                self.idx += 1;
+                if self.idx >= self.contents.len() {
+                    return None;
+                }
+                self.next()
+            }
+        }
+    }
+}
+
+#[test]
+fn matrix_iterator() {
+    let x = crate::matrix!(10, 20, 30 => 40, 50, 60 => 70, 80, 90);
+    for v in x {
+        println!("{v}");
+    }
+}
+
 impl<T: VectorGeneric<T>> Mul<Vector<T>> for Matrix<T> {
     type Output = Vector<T>;
 
