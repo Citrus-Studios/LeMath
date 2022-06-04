@@ -84,6 +84,7 @@ pub trait VectorGeneric<T> = Clone + Default + Real + Mul<Output = T> + Copy + D
 pub struct Vector<T: VectorGeneric<T>> {
     vec_type: VectorType,
     contents: Vec<T>,
+    iter_idx: usize,
 }
 
 impl<T: VectorGeneric<T>> Vector<T> {
@@ -91,6 +92,7 @@ impl<T: VectorGeneric<T>> Vector<T> {
         Vector {
             vec_type,
             contents: vec![],
+            iter_idx: 0,
         }
     }
     pub fn push(&mut self, value: T) {
