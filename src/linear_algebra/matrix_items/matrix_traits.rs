@@ -75,3 +75,27 @@ impl<T: VectorGeneric<T>> Mul<Vector<T>> for Matrix<T> {
         temp_vec
     }
 }
+
+impl<T: VectorGeneric<T>> From<(usize, usize)> for Matrix<T> {
+    fn from(from: (usize, usize)) -> Self {
+        let mut temp = Matrix::<T>::new(vec![]);
+        let default_vec = (0..from.1)
+            .into_iter()
+            .map(|_| T::default())
+            .collect::<Vector<T>>();
+        for _ in 0..from.0 {
+            temp.contents.push(default_vec.clone());
+        }
+        temp
+    }
+}
+
+impl<T: VectorGeneric<T>> Mul for Matrix<T> {
+    type Output = Self;
+
+    fn mul(self, rhs: Self) -> Self::Output {
+        let temp_matrix = Matrix::<T>::from((self.contents.len(), self.contents[0].len()));
+
+        todo!();
+    }
+}
