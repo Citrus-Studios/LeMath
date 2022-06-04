@@ -1,2 +1,2 @@
-pub mod vector_math;
+pub mod vector_traits;
 pub mod vectors;
