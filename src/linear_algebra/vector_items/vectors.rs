@@ -84,7 +84,7 @@ pub trait VectorGeneric<T> = Clone + Default + Real + Mul<Output = T> + Copy + D
 pub struct Vector<T: VectorGeneric<T>> {
     vec_type: VectorType,
     contents: Vec<T>,
-    iter_idx: usize,
+    pub(crate) iter_idx: usize,
 }
 
 impl<T: VectorGeneric<T>> Vector<T> {
