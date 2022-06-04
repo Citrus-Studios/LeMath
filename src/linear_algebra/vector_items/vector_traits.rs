@@ -2,7 +2,7 @@ use std::ops::{Add, Mul};
 
 use crate::linear_algebra::matrices::Matrix;
 
-use super::vectors::{Vector, VectorGeneric};
+use super::vectors::{Vector, VectorGeneric, VectorType};
 
 /// Dot Product
 impl<T: VectorGeneric<T>> Mul<Self> for Vector<T> {
@@ -65,5 +65,15 @@ impl<T: VectorGeneric<T>> Iterator for Vector<T> {
             Some(e) => Some(*e),
             None => None,
         }
+    }
+}
+
+impl<T: VectorGeneric<T>> FromIterator<T> for Vector<T> {
+    fn from_iter<I: IntoIterator<Item = T>>(iter: I) -> Self {
+        let mut temp_vec = Vector::new(VectorType::Row);
+        for x in iter {
+            temp_vec.push(x)
+        }
+        temp_vec
     }
 }
