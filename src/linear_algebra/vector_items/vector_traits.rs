@@ -55,3 +55,12 @@ impl<T: VectorGeneric<T>> Add for Vector<T> {
         }
     }
 }
+
+impl<T: VectorGeneric<T>> Iterator for Vector<T> {
+    type Item = T;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.iter_idx += 1;
+        self.get(self.iter_idx - 1)
+    }
+}
