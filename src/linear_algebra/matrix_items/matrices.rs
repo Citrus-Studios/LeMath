@@ -52,11 +52,12 @@ macro_rules! matrix {
 #[derive(Debug)]
 pub struct Matrix<T: VectorGeneric<T>> {
     pub(crate) contents: Vec<Vector<T>>,
+    pub(crate) idx: usize,
 }
 
 impl<T: VectorGeneric<T>> Matrix<T> {
     pub fn new(contents: Vec<Vector<T>>) -> Self {
-        Self { contents }
+        Self { contents, idx: 0 }
     }
     pub fn len(&self) -> usize {
         self.contents.len()
