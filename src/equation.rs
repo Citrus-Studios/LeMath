@@ -5,7 +5,7 @@ pub struct EquationBuilder {}
 
 impl EquationBuilder {
     pub fn new(equation: &str) -> Pairs<Rule> {
-        let mut pairs =
+        let pairs =
             EquationParser::parse(Rule::equation, equation).unwrap_or_else(|e| panic!("{}", e));
         pairs
     }
