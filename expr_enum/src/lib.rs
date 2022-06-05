@@ -8,7 +8,7 @@ pub enum Equation<T: EquationTrait, U: EquationTrait> {
     SubVariable(T, String),
     MulVariable(T, String),
     DivVariable(T, String),
-    Parenthesis(T, String),
+    Parenthesis(T),
 }
 
 pub trait EquationTrait {}
@@ -36,8 +36,14 @@ impl<T: EquationTrait, U: EquationTrait> Equation<T, U> {
         }
         println!("First Run Through: {equation}");
 
+        let mut checked = String::new();
+
         for (i, c) in equation.clone().chars().enumerate() {
-            if c == '*' {}
+            if c == '*' {
+                let split = checked.split(' ').collect::<Vec<_>>();
+            }
+
+            checked.push(c)
         }
 
         todo!()
