@@ -25,26 +25,6 @@ impl_equation_trait!(u8 u16 u32 u64 u128 usize i8 i16 i32 i64 i128 isize f32 f64
 impl<T: EquationTrait, U: EquationTrait> Equation<T, U> {
     pub fn new(equation: &str) -> Self {
         let mut equation = equation.to_string();
-        let mut index_offset = 0;
-        let mut last_char = '|';
-        for (i, c) in equation.clone().chars().enumerate() {
-            if c == 'x' && last_char.is_numeric() {
-                equation.insert(i + index_offset, '*');
-                index_offset += 1;
-            }
-            last_char = c;
-        }
-        println!("First Run Through: {equation}");
-
-        let mut checked = String::new();
-
-        for (i, c) in equation.clone().chars().enumerate() {
-            if c == '*' {
-                let split = checked.split(' ').collect::<Vec<_>>();
-            }
-
-            checked.push(c)
-        }
 
         todo!()
     }
