@@ -12,6 +12,7 @@ pub mod traitbounds;
 pub mod any_length_num;
 pub mod calculus;
 pub mod complex;
+pub mod equation;
 pub mod fraction;
 pub mod linear_algebra;
 
