@@ -1,6 +1,6 @@
 use std::ops::{Add, Mul};
 
-use crate::linear_algebra::matrices::Matrix;
+// use crate::linear_algebra::matrices::Matrix;
 
 use super::vectors::{Vector, VectorGeneric, VectorType};
 
@@ -22,13 +22,13 @@ impl<T: VectorGeneric<T>> Mul<T> for Vector<T> {
     }
 }
 
-impl<T: VectorGeneric<T>> Mul<Matrix<T>> for Vector<T> {
-    type Output = Vector<T>;
+// impl<T: VectorGeneric<T>> Mul<Matrix<T>> for Vector<T> {
+//     type Output = Vector<T>;
 
-    fn mul(self, rhs: Matrix<T>) -> Self::Output {
-        rhs * self
-    }
-}
+//     fn mul(self, rhs: Matrix<T>) -> Self::Output {
+//         rhs * self
+//     }
+// }
 
 impl<T: VectorGeneric<T>> Add for Vector<T> {
     type Output = Vector<T>;
