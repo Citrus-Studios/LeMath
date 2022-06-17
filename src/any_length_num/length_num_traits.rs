@@ -19,7 +19,7 @@ impl<const U: usize> From<String> for AnyLengthNum<U> {
         let mut res = AnyLengthNum::<U>::new();
         let mut from = from;
         from.zfill(U * 8);
-        println!("From: {from}");
+        // println!("From: {from}");
         for x in 0..U {
             res.num[x] = u8::from_str_radix(&from.as_str()[x * 8..x * 8 + 8], 2).unwrap();
         }
