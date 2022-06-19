@@ -1,13 +1,11 @@
-use pest::iterators::Pairs;
+use crate::fractions_num::Fraction;
 
-use crate::{equation::Rule, fractions_num::Fraction};
-
-pub struct Derivative<'a> {
-    equation: Pairs<'a, Rule>,
+pub struct Derivative {
+    equation: String,
 }
 
-impl<'a> Derivative<'a> {
-    pub fn new(equation: Pairs<'a, Rule>) -> Self {
+impl Derivative {
+    pub fn new(equation: String) -> Self {
         Self { equation }
     }
     pub fn build() -> fn(Fraction) -> Fraction {
