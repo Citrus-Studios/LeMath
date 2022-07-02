@@ -13,8 +13,10 @@ linear-algebra = ["matrices"]
 
 # Calculus
 integrals = []
-derivatives = []
+derivatives = ["equation-parser"]
 calculus = ["integrals", "derivatives"]
+
+equation-parser = []
 
 all = ["linear-algebra", "calculus"]
 
