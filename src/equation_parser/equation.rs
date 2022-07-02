@@ -1,7 +1,10 @@
 pub struct EquationBuilder {}
 
 impl EquationBuilder {
-    pub fn new(equation: &str) {}
+    pub fn new(equation: &str) {
+        let equation = equation.to_string();
+        
+    }
 }
 
 #[test]
